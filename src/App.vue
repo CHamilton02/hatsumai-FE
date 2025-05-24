@@ -1,11 +1,23 @@
 <script setup lang="ts">
-import TopNavbar from './views/TopNavbar.vue'
+import SideNavbar from './components/SideNavbar.vue'
+import TopNavbar from './components/TopNavbar.vue'
 
-// import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <TopNavbar />
+  <nav>
+    <TopNavbar />
+    <SideNavbar />
+  </nav>
+  <main class="app-body">
+    <RouterView />
+  </main>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.app-body {
+  padding-left: 20%;
+  padding-top: 20%;
+}
+</style>
