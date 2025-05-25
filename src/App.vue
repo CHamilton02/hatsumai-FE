@@ -6,18 +6,26 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <nav>
-    <TopNavbar />
+  <TopNavbar />
+  <div class="main-layout">
     <SideNavbar />
-  </nav>
-  <main class="app-body">
-    <RouterView />
-  </main>
+    <main class="main-layout__body">
+      <RouterView />
+    </main>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.app-body {
-  padding-left: 20%;
-  padding-top: 20%;
+.main-layout {
+  display: flex;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+
+  &__body {
+    margin-top: 5.5rem;
+    width: 100%;
+  }
 }
 </style>

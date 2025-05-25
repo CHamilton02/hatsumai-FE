@@ -4,3 +4,26 @@ body {
   height: 100%;
   font-family: 'Roboto';
 }
+
+h1,
+h2 {
+  font-family: 'Montserrat';
+  font-weight: normal;
+  margin: 0;
+}
+
+.action-button {
+  font-family: 'Roboto';
+  background-color: #08345c;
+  color: white;
+  padding: 1rem 2.2rem;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: #145ea8;
+  }
+}

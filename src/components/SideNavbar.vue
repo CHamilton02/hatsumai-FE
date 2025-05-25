@@ -5,8 +5,12 @@ import { Icon } from '@iconify/vue'
 <template>
   <nav class="side-navbar">
     <RouterLink to="/" class="side-navbar__page">
-      <Icon icon="material-symbols-light:add-home-outline" class="icon" />
+      <Icon icon="material-symbols-light:home-outline" class="icon" />
       Home
+    </RouterLink>
+    <RouterLink to="/generate" class="side-navbar__page">
+      <Icon icon="material-symbols-light:lightbulb-2-outline" class="icon" />
+      Generate
     </RouterLink>
     <RouterLink to="/history" class="side-navbar__page">
       <Icon icon="material-symbols-light:history" class="icon" />
@@ -17,12 +21,9 @@ import { Icon } from '@iconify/vue'
 
 <style scoped lang="scss">
 .side-navbar {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  height: 100%;
   max-width: 6.25rem;
-  padding: 1rem 1rem;
+  padding: 1rem;
   background-color: #f2efe9;
   display: flex;
   flex-direction: column;
