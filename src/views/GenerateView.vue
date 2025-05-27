@@ -64,6 +64,8 @@ const userInput: Ref<string> = ref('')
     border-radius: 0.5rem;
     border: none;
     background-color: #f2efe9;
+    font-size: 1rem;
+    font-family: 'Roboto';
 
     &::placeholder {
       color: black;
