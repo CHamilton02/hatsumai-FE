@@ -4,27 +4,35 @@ import { Icon } from '@iconify/vue'
 
 <template>
   <nav class="side-navbar">
-    <RouterLink to="/" class="side-navbar__page">
-      <Icon icon="material-symbols-light:home-outline" class="icon" />
-      Home
-    </RouterLink>
-    <RouterLink to="/generate" class="side-navbar__page">
-      <Icon icon="material-symbols-light:lightbulb-2-outline" class="icon" />
-      Generate
-    </RouterLink>
-    <RouterLink to="/history" class="side-navbar__page">
-      <Icon icon="material-symbols-light:history" class="icon" />
-      History
-    </RouterLink>
+    <button class="nav-button">
+      <RouterLink to="/" class="side-navbar__page">
+        <Icon icon="material-symbols-light:home-outline" class="nav-icon" />
+        Home
+      </RouterLink>
+    </button>
+    <button class="nav-button">
+      <RouterLink to="/generate" class="side-navbar__page">
+        <Icon icon="material-symbols-light:lightbulb-2-outline" class="nav-icon" />
+        Generate
+      </RouterLink>
+    </button>
+    <button class="nav-button">
+      <RouterLink to="/history" class="side-navbar__page">
+        <Icon icon="material-symbols-light:history" class="nav-icon" />
+        History
+      </RouterLink>
+    </button>
   </nav>
 </template>
 
 <style scoped lang="scss">
+@import '@/assets/main.scss';
+
 .side-navbar {
   height: 100%;
+  padding: 0 0.75rem;
   max-width: 6.25rem;
-  padding: 1rem;
-  background-color: #f2efe9;
+  background-color: $navy-blue;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -35,13 +43,26 @@ import { Icon } from '@iconify/vue'
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: black;
+    color: $light-grey;
     text-decoration: none;
   }
 }
 
-.icon {
-  width: 4rem;
+.nav-button {
+  background: none;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: $navy-blue-2;
+  }
+}
+
+.nav-icon {
+  width: 3rem;
   height: auto;
+  color: $light-grey;
 }
 </style>

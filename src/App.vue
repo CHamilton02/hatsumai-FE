@@ -1,31 +1,39 @@
 <script setup lang="ts">
 import SideNavbar from './components/SideNavbar.vue'
-import TopNavbar from './components/TopNavbar.vue'
 
 import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <TopNavbar />
-  <div class="main-layout">
+  <div class="app-container">
     <SideNavbar />
-    <main class="main-layout__body">
+
+    <main class="app-container__main">
+      <img class="app-logo" src="@/assets/hatsumaiLogo.svg" />
       <RouterView />
     </main>
   </div>
 </template>
 
 <style scoped lang="scss">
-.main-layout {
+.app-container {
   display: flex;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 100%;
+  height: 100%;
 
-  &__body {
-    margin-top: 5.5rem;
+  &__main {
+    height: 100%;
     width: 100%;
+    padding: 0 2rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+}
+
+.app-logo {
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
 }
 </style>
