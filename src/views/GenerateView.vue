@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue'
 import { Icon } from '@iconify/vue'
-
-const generateProjectActionPhrases: Array<string> = [
+import DifficultyDropdown from '@/components/DifficultyDropdown.vue'
+import TopicMultiselect from '@/components/TopicMultiselect.vue'
+const actionPhrases: Array<string> = [
   'What do you wanna build before your next all-nighter?',
   'Drop a topic — Hatsumai believes in you 🫶',
   'Brain go brrr 💡 What’s the vibe today?',
@@ -25,130 +26,88 @@ const generateProjectActionPhrases: Array<string> = [
   "Greatness starts with one mildly unhinged idea. Let's go.",
 ]
 const userInput: Ref<string> = ref('')
+const randomActionPhrase = getActionPhrase()
+
+function getActionPhrase() {
+  return actionPhrases[Math.round(Math.random() * actionPhrases.length) - 1]
+}
 </script>
 
 <template>
-  <div class="generate-view-container">
-    <h1 class="generate-view-container__action-message">
-      {{
-        generateProjectActionPhrases[
-          Math.round(Math.random() * generateProjectActionPhrases.length) - 1
-        ]
-      }}
+  <div class="generate-view-page">
+    <h1 class="action-message">
+      {{ randomActionPhrase }}
     </h1>
-    <div class="generate-view-container__user-interaction-container">
-      <div class="generate-view-container__user-interaction-container__user-selection">
+    <div class="user-interaction-container">
+      <div class="user-interaction-container__user-selection">
         <textarea
-          class="generate-view-container__user-interaction-container__user-selection__input"
+          class="user-interaction-container__user-selection__input"
           placeholder="Type in some topics you want to explore — or just pick from the list below!"
           v-model="userInput"
         ></textarea>
-        <button
-          class="generate-view-container__user-interaction-container__user-selection__difficulty-level"
-        >
-          Difficulty Level
-          <Icon icon="material-symbols-light:keyboard-arrow-down" class="dropdown-icon" />
-        </button>
-        <Icon icon="material-symbols-light:arrow-circle-up-outline-rounded" class="submit-icon" />
+        <DifficultyDropdown />
+        <Icon icon="material-symbols-light:arrow-circle-up-rounded" class="submit-icon" />
       </div>
-      <button class="generate-view-container__user-interaction-container__topic-ideas">
-        <Icon icon="material-symbols-light:topic-outline-rounded" class="file-icon" /> Topics
-      </button>
+      <TopicMultiselect />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.generate-view-container {
+@use '@/assets/main.scss';
+
+.generate-view-page {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
 
-  &__action-message {
-    font-size: 1.75rem;
-    margin-bottom: 1rem;
-    color: #34b3f1;
-  }
+.action-message {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: main.$navy-blue;
+}
 
-  &__user-interaction-container {
-    width: 100%;
-    max-width: 50rem;
-    background-color: #f2efe9;
-    padding: 1rem;
-    border-radius: 1rem;
+.user-interaction-container {
+  width: 100%;
+  max-width: 50rem;
+  background-color: #f2efe9;
+  padding: 1rem;
+  border-radius: 1rem;
 
-    &__user-selection {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+  &__user-selection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-      &__input {
-        resize: none;
-        width: 70%;
-        border: none;
-        background: none;
-        padding: 0;
-        font-size: 1rem;
-        font-family: 'Roboto';
-        field-sizing: content;
-        padding-left: 0.75rem;
-
-        &::placeholder {
-          color: #6b7280;
-        }
-      }
-
-      &__difficulty-level {
-        font-size: 1rem;
-        font-family: 'Roboto';
-        color: #333b4f;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 1rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        &:hover {
-          background-color: #eae6dd;
-        }
-      }
-    }
-
-    &__topic-ideas {
-      display: flex;
-      align-items: center;
-      background: none;
-      gap: 0.2rem;
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.6rem;
+    &__input {
+      resize: none;
+      width: 70%;
       border: none;
+      background: none;
+      padding: 0;
       font-size: 1rem;
-      color: #333b4f;
+      font-family: 'Roboto';
+      field-sizing: content;
+      padding-left: 0.75rem;
 
-      &:hover {
-        background-color: #eae6dd;
+      &::placeholder {
+        color: #6b7280;
       }
     }
   }
-}
-
-.dropdown-icon {
-  width: 1.5rem;
-  height: auto;
-  color: #333b4f;
-}
-
-.file-icon {
-  width: 1.5rem;
-  height: auto;
-  color: #333b4f;
 }
 
 .submit-icon {
   width: 2.5rem;
   height: auto;
-  color: #333b4f;
+  color: main.$grey;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    color: main.$light-grey;
+  }
 }
 </style>

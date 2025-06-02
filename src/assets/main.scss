@@ -2,7 +2,10 @@
 $navy-blue: #023059;
 $navy-blue-2: #034177;
 $navy-blue-light: #0781eb;
-$light-grey: #e4e4e4;
+$grey: #6b7280;
+$light-grey: #8992a2;
+$light-grey-2: #e4e4e4;
+$light-grey-3: #eae6dd;
 
 html,
 body,
@@ -33,4 +36,9 @@ h2 {
   &:hover {
     background-color: #145ea8;
   }
+}
+
+.invisible-button {
+  background: none;
+  border: none;
 }

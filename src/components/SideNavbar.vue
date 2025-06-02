@@ -26,13 +26,13 @@ import { Icon } from '@iconify/vue'
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/main.scss';
+@use '@/assets/main.scss';
 
 .side-navbar {
   height: 100%;
   padding: 0 0.75rem;
   max-width: 6.25rem;
-  background-color: $navy-blue;
+  background-color: main.$navy-blue;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -43,7 +43,7 @@ import { Icon } from '@iconify/vue'
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: $light-grey;
+    color: main.$light-grey-2;
     text-decoration: none;
   }
 }
@@ -56,13 +56,13 @@ import { Icon } from '@iconify/vue'
   transition: 0.3s;
 
   &:hover {
-    background-color: $navy-blue-2;
+    background-color: main.$navy-blue-2;
   }
 }
 
 .nav-icon {
   width: 3rem;
   height: auto;
-  color: $light-grey;
+  color: main.$light-grey-2;
 }
 </style>
