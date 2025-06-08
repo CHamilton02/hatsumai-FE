@@ -9,28 +9,38 @@ const tips = [
 </script>
 
 <template>
-  <div class="idea-container">
-    <h1>Portfolio Website</h1>
-    <p>
-      Build a simple portfolio website showcasing three sections: a landing page, a "Projects"
-      section with cards displaying brief details, and a "Contact" section with a contact form. Use
-      React for structure, Sass for styling, and ensure it is fully responsive.
-    </p>
-    <h2>Tips</h2>
-    <div v-for="(tip, index) in tips" :key="`tip-${index}`" class="idea-container__tip">
-      {{ tip }}
+  <div class="idea-view-container">
+    <div class="idea-view">
+      <h1>Portfolio Website</h1>
+      <p>
+        Build a simple portfolio website showcasing three sections: a landing page, a "Projects"
+        section with cards displaying brief details, and a "Contact" section with a contact form.
+        Use React for structure, Sass for styling, and ensure it is fully responsive.
+      </p>
+      <h2>Tips</h2>
+      <div v-for="(tip, index) in tips" :key="`tip-${index}`" class="idea-view__tip">
+        {{ tip }}
+      </div>
+      <button class="action-button idea-view__download-button">
+        <Icon icon="material-symbols-light:download-rounded" class="download-icon" />
+        Download
+      </button>
     </div>
-    <button class="action-button idea-container__download-button">
-      <Icon icon="material-symbols-light:download-rounded" class="download-icon" />
-      Download
-    </button>
   </div>
 </template>
 
 <style scoped lang="scss">
 @use '@/assets/main.scss';
 
-.idea-container {
+.idea-view-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.idea-view {
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -87,6 +87,7 @@ function onSubmitClick() {
 @use '@/assets/main.scss';
 
 .generate-view-page {
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

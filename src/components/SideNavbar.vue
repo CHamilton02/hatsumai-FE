@@ -32,7 +32,9 @@ const route = useRoute()
 @use '@/assets/main.scss';
 
 .side-navbar {
-  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
   padding: 0 0.75rem;
   max-width: 6.25rem;
   background-color: main.$navy-blue;

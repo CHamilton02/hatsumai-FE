@@ -21,19 +21,16 @@ import { RouterView } from 'vue-router'
   height: 100%;
 
   &__main {
-    height: 100%;
     width: 100%;
     padding: 0 2rem;
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-left: 5rem;
   }
 }
 
 .app-logo {
-  position: absolute;
+  position: fixed;
   top: 1rem;
-  left: 1.5rem;
+  left: 7rem;
 }
 </style>
