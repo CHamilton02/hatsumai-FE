@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 </script>
 
 <template>
   <nav class="side-navbar">
-    <button class="nav-button">
+    <button class="nav-button" :class="{ 'nav-button--active': route.path === '/' }">
       <RouterLink to="/" class="side-navbar__page">
         <Icon icon="material-symbols-light:home-outline" class="nav-icon" />
         Home
       </RouterLink>
     </button>
-    <button class="nav-button">
+    <button class="nav-button" :class="{ 'nav-button--active': route.path === '/generate' }">
       <RouterLink to="/generate" class="side-navbar__page">
         <Icon icon="material-symbols-light:lightbulb-2-outline" class="nav-icon" />
         Generate
       </RouterLink>
     </button>
-    <button class="nav-button">
+    <button class="nav-button" :class="{ 'nav-button--active': route.path === '/history' }">
       <RouterLink to="/history" class="side-navbar__page">
         <Icon icon="material-symbols-light:history" class="nav-icon" />
         History
@@ -56,6 +59,10 @@ import { Icon } from '@iconify/vue'
   transition: 0.3s;
 
   &:hover {
+    background-color: main.$navy-blue-2;
+  }
+
+  &--active {
     background-color: main.$navy-blue-2;
   }
 }

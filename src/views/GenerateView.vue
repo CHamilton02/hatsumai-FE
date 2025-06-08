@@ -4,6 +4,7 @@ import { Icon } from '@iconify/vue'
 import DifficultyDropdown from '@/components/DifficultyDropdown.vue'
 import TopicMultiselect from '@/components/TopicMultiselect.vue'
 import { useProjectStore } from '@/stores/project'
+import { useRouter } from 'vue-router'
 
 const actionPhrases: Array<string> = [
   'What do you wanna build before your next all-nighter?',
@@ -30,14 +31,19 @@ const actionPhrases: Array<string> = [
 const userInput: Ref<string> = ref('')
 const randomActionPhrase = getActionPhrase()
 const projectStore = useProjectStore()
+const router = useRouter()
 
 function getActionPhrase() {
   return actionPhrases[Math.round(Math.random() * actionPhrases.length) - 1]
 }
+
+function onSubmitClick() {
+  router.push('/project')
+}
 </script>
 
 <template>
-  <div class="generate-view-page">
+  <div :class="'generate-view-page'">
     <h1 class="action-message">
       {{ randomActionPhrase }}
     </h1>
@@ -49,7 +55,9 @@ function getActionPhrase() {
           v-model="userInput"
         ></textarea>
         <DifficultyDropdown />
-        <Icon icon="material-symbols-light:arrow-circle-up-rounded" class="submit-icon" />
+        <button class="invisible-button" @click="onSubmitClick">
+          <Icon icon="material-symbols-light:arrow-circle-up-rounded" class="submit-icon" />
+        </button>
       </div>
       <div class="user-interaction-container__topic-container">
         <TopicMultiselect />
@@ -63,7 +71,7 @@ function getActionPhrase() {
           <button
             class="user-interaction-container__topic-container__topics__topic"
             v-for="selectedTopic in projectStore.selectedTopics"
-            v-bind:key="selectedTopic.topic"
+            :key="selectedTopic.topic"
             @click="projectStore.removeTopicByName(selectedTopic.topic)"
           >
             {{ selectedTopic.topic }}
@@ -118,7 +126,7 @@ function getActionPhrase() {
       padding-left: 0.75rem;
 
       &::placeholder {
-        color: #6b7280;
+        color: main.$grey;
       }
     }
   }
@@ -127,7 +135,6 @@ function getActionPhrase() {
     display: flex;
     gap: 0.5rem;
     align-items: center;
-    position: relative;
 
     &__divider {
       color: main.$grey;
@@ -162,12 +169,12 @@ function getActionPhrase() {
 .submit-icon {
   width: 2.5rem;
   height: auto;
-  color: main.$grey;
+  color: main.$navy-blue-2;
   cursor: pointer;
   transition: 0.3s;
 
   &:hover {
-    color: main.$light-grey;
+    color: main.$navy-blue-light;
   }
 }
 </style>

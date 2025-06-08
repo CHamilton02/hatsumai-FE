@@ -36,60 +36,69 @@ function onAddButtonClick() {
     class="clickable-background"
     @click="onCloseMultiselectAction"
   ></div>
-  <button
-    :class="{
-      'topic-multiselect--active--menu-active': displayedTopics.length && isMultiselectMenuVisible,
-      'topic-multiselect--active': isMultiselectMenuVisible,
-    }"
-    class="topic-multiselect"
-    @click="onMultiselectButtonClick"
-  >
-    <div class="topic-multiselect__input-container">
-      <Icon icon="material-symbols-light:topic-outline-rounded" class="icon" />
-      <input
-        type="text"
-        class="topic-multiselect__input-container__input"
-        v-model="inputtedTopic"
-        placeholder="Add topics here"
-        @keyup.enter="onAddButtonClick"
-      />
-    </div>
-    <div>
-      <button
-        class="invisible-button"
-        @click="onAddButtonClick"
-        v-if="isMultiselectMenuVisible && !displayedTopics.length"
-      >
-        <Icon icon="material-symbols-light:add-circle-rounded" class="clickable-icon" />
-      </button>
-      <button
-        class="invisible-button"
-        @click.stop="onCloseMultiselectAction"
-        v-if="isMultiselectMenuVisible"
-      >
-        <Icon icon="material-symbols-light:close-rounded" class="clickable-icon" />
-      </button>
-    </div>
-  </button>
-
-  <div
-    class="topic-multiselect-menu"
-    :class="{ 'topic-multiselect-menu--show': isMultiselectMenuVisible }"
-  >
+  <div class="topic-multiselect-container">
     <button
-      class="topic-multiselect-menu__option"
-      v-for="(topic, index) in displayedTopics"
-      :key="`${topic}-${index}`"
-      @click="onCheckboxToggle(index)"
+      :class="{
+        'topic-multiselect--active--menu-active':
+          displayedTopics.length && isMultiselectMenuVisible,
+        'topic-multiselect--active': isMultiselectMenuVisible,
+      }"
+      class="topic-multiselect"
+      @click="onMultiselectButtonClick"
     >
-      <input type="checkbox" :checked="topic.checked" />
-      {{ topic.topic }}
+      <div class="topic-multiselect__input-container">
+        <Icon icon="material-symbols-light:topic-outline-rounded" class="icon" />
+        <input
+          type="text"
+          class="topic-multiselect__input-container__input"
+          v-model="inputtedTopic"
+          placeholder="Add topics here"
+          @keyup.enter="onAddButtonClick"
+        />
+      </div>
+      <div>
+        <button
+          class="invisible-button"
+          @click="onAddButtonClick"
+          v-if="isMultiselectMenuVisible && !displayedTopics.length"
+        >
+          <Icon icon="material-symbols-light:add-circle-rounded" class="clickable-icon" />
+        </button>
+        <button
+          class="invisible-button"
+          @click.stop="onCloseMultiselectAction"
+          v-if="isMultiselectMenuVisible"
+        >
+          <Icon icon="material-symbols-light:close-rounded" class="clickable-icon" />
+        </button>
+      </div>
     </button>
+
+    <div
+      class="topic-multiselect-menu"
+      :class="{ 'topic-multiselect-menu--show': isMultiselectMenuVisible }"
+    >
+      <div class="topic-multiselect-menu__option-container">
+        <button
+          class="topic-multiselect-menu__option"
+          v-for="(topic, index) in displayedTopics"
+          :key="`${topic}-${index}`"
+          @click="onCheckboxToggle(index)"
+        >
+          <input type="checkbox" :checked="topic.checked" />
+          {{ topic.topic }}
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 @use '@/assets/main.scss';
+
+.topic-multiselect-container {
+  position: relative;
+}
 
 .topic-multiselect {
   display: flex;
@@ -145,15 +154,20 @@ function onAddButtonClick() {
   top: 2.5rem;
   background-color: main.$light-grey-3;
   border-radius: 0 0 0.75rem 0.75rem;
-  width: 16rem;
+  width: 15.5rem;
   max-height: 11rem;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: hidden;
   z-index: 1;
 
   &--show {
     display: flex;
     flex-direction: column;
+  }
+
+  &__option-container {
+    max-height: 11rem;
+    overflow-y: scroll;
   }
 
   &__option {

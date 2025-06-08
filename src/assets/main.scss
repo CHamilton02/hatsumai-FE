@@ -1,7 +1,7 @@
 // Colour variables
 $navy-blue: #023059;
 $navy-blue-2: #034177;
-$navy-blue-light: #0781eb;
+$navy-blue-light: #145ea8;
 $grey: #6b7280;
 $light-grey: #8992a2;
 $light-grey-2: #e4e4e4;
@@ -24,7 +24,7 @@ h2 {
 
 .action-button {
   font-family: 'Roboto';
-  background-color: #08345c;
+  background-color: $navy-blue-2;
   color: white;
   padding: 1rem 2.2rem;
   border: none;
@@ -34,7 +34,7 @@ h2 {
   font-size: 1rem;
 
   &:hover {
-    background-color: #145ea8;
+    background-color: $navy-blue-light;
   }
 }
 

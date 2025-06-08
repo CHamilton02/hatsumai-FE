@@ -1,6 +1,7 @@
 import GenerateView from '@/views/GenerateView.vue'
 import HistoryView from '@/views/HistoryView.vue'
 import HomeView from '@/views/HomeView.vue'
+import ProjectView from '@/views/ProjectView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -15,6 +16,11 @@ const router = createRouter({
       path: '/generate',
       name: 'generate',
       component: GenerateView,
+    },
+    {
+      path: '/project',
+      name: 'project',
+      component: ProjectView,
     },
     {
       path: '/history',
