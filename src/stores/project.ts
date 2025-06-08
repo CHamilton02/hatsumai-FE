@@ -53,6 +53,12 @@ export const useProjectStore = defineStore('store', () => {
     topics.value[index].checked = !topics.value[index].checked
   }
 
+  function removeTopicByName(topicName: string) {
+    topics.value.forEach((topic) => {
+      topic.checked = topic.topic === topicName ? false : topic.checked
+    })
+  }
+
   function addTopic(topic: Topic) {
     topics.value.push(topic)
   }
@@ -63,6 +69,7 @@ export const useProjectStore = defineStore('store', () => {
     selectedTopics,
     filteredTopics,
     toggleCheckOnTopic,
+    removeTopicByName,
     addTopic,
   }
 })

@@ -20,6 +20,11 @@ function onDifficultyOptionSelection(difficultyOption: DifficultyLevel) {
 </script>
 
 <template>
+  <div
+    v-if="isDropdownMenuVisible"
+    class="clickable-background"
+    @click="onDifficultyDropdownToggle"
+  ></div>
   <div>
     <button
       :class="
@@ -67,6 +72,7 @@ function onDifficultyOptionSelection(difficultyOption: DifficultyLevel) {
   padding: 0.5rem 0;
   width: 10rem;
   border-radius: 0.75rem;
+  background: none;
 
   &:hover {
     background-color: main.$light-grey-3;

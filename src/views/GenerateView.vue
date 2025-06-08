@@ -3,6 +3,8 @@ import { ref, type Ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import DifficultyDropdown from '@/components/DifficultyDropdown.vue'
 import TopicMultiselect from '@/components/TopicMultiselect.vue'
+import { useProjectStore } from '@/stores/project'
+
 const actionPhrases: Array<string> = [
   'What do you wanna build before your next all-nighter?',
   'Drop a topic — Hatsumai believes in you 🫶',
@@ -27,6 +29,7 @@ const actionPhrases: Array<string> = [
 ]
 const userInput: Ref<string> = ref('')
 const randomActionPhrase = getActionPhrase()
+const projectStore = useProjectStore()
 
 function getActionPhrase() {
   return actionPhrases[Math.round(Math.random() * actionPhrases.length) - 1]
@@ -48,7 +51,26 @@ function getActionPhrase() {
         <DifficultyDropdown />
         <Icon icon="material-symbols-light:arrow-circle-up-rounded" class="submit-icon" />
       </div>
-      <TopicMultiselect />
+      <div class="user-interaction-container__topic-container">
+        <TopicMultiselect />
+        <div
+          class="user-interaction-container__topic-container__divider"
+          v-if="projectStore.selectedTopics.length !== 0"
+        >
+          |
+        </div>
+        <div class="user-interaction-container__topic-container__topics">
+          <button
+            class="user-interaction-container__topic-container__topics__topic"
+            v-for="selectedTopic in projectStore.selectedTopics"
+            v-bind:key="selectedTopic.topic"
+            @click="projectStore.removeTopicByName(selectedTopic.topic)"
+          >
+            {{ selectedTopic.topic }}
+            <Icon icon="material-symbols-light:close-rounded" class="clickable-icon" />
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -75,6 +97,9 @@ function getActionPhrase() {
   background-color: #f2efe9;
   padding: 1rem;
   border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 
   &__user-selection {
     display: flex;
@@ -94,6 +119,41 @@ function getActionPhrase() {
 
       &::placeholder {
         color: #6b7280;
+      }
+    }
+  }
+
+  &__topic-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    position: relative;
+
+    &__divider {
+      color: main.$grey;
+      font-size: 1rem;
+    }
+
+    &__topics {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+
+      &__topic {
+        font-family: 'Roboto';
+        font-size: 1rem;
+        color: main.$grey;
+        border: none;
+        border-radius: 0.75rem;
+        padding: 0.5rem 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: none;
+
+        &:hover {
+          background-color: main.$light-grey-3;
+        }
       }
     }
   }
