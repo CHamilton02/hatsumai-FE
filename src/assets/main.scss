@@ -33,6 +33,20 @@ h2 {
   transition: 0.3s;
   font-size: 1rem;
 
+  &--alt {
+    @extend .action-button;
+    background: none;
+    color: $navy-blue;
+    border: solid $navy-blue 0.01rem;
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      color: white;
+      background-color: $navy-blue;
+    }
+  }
+
   &:hover {
     background-color: $navy-blue-light;
   }

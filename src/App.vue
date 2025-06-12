@@ -2,14 +2,14 @@
 import SideNavbar from './components/SideNavbar.vue'
 
 import { RouterView } from 'vue-router'
+import TopNavbar from './components/TopNavbar.vue'
 </script>
 
 <template>
   <div class="app-container">
     <SideNavbar />
-
+    <TopNavbar />
     <main class="app-container__main">
-      <img class="app-logo" src="@/assets/hatsumaiLogo.svg" />
       <RouterView />
     </main>
   </div>
@@ -22,15 +22,8 @@ import { RouterView } from 'vue-router'
 
   &__main {
     width: 100%;
-    padding: 0 2rem;
     position: relative;
     margin-left: 5rem;
   }
-}
-
-.app-logo {
-  position: fixed;
-  top: 1rem;
-  left: 7rem;
 }
 </style>

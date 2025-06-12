@@ -56,7 +56,7 @@ const projects = [
               {{ topic }}
             </div>
             <div v-if="project.topics.length > 2" class="history-view__project__topics__topic">
-              And more...
+              {{ `+ ${project.topics.length - 2} more` }}
             </div>
           </div>
           <button class="history-view__project__view-details action-button">View Details</button>
