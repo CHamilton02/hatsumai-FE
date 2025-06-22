@@ -1,6 +1,6 @@
 FROM node:22-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy the package.json and package-lock.json file
 COPY package*.json .
@@ -11,10 +11,8 @@ RUN npm install
 # Copy the rest of the source files into the image.
 COPY . .
 
-RUN npm run build
-
 # Expose the port that the application listens on.
 EXPOSE 5173
 
 # Run the application.
-CMD ["npm", "start", "--", "--host"]
+CMD [ "npm", "start" ]
