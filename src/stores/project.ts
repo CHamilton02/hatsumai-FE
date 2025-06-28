@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import type { DifficultyLevel } from '@/types/components/DifficultyDropdown'
 import type { Topic } from '@/types/components/TopicMultiselect'
 
-export const useProjectStore = defineStore('store', () => {
+export const useProjectStore = defineStore('projectStore', () => {
   const selectedDifficulty: Ref<DifficultyLevel | undefined> = ref()
   const topics: Ref<Array<Topic>> = ref([
     {
