@@ -18,6 +18,7 @@ export const useUserStore = defineStore('userStore', () => {
   async function register(user: User) {
     try {
       await registerService(user)
+      login(user)
     } catch {
       console.error('Failed to register.')
       throw new Error()

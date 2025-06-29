@@ -4,7 +4,7 @@
   <div class="top-navbar">
     <img src="@/assets/hatsumaiLogo.svg" />
     <div class="top-navbar__log-in-buttons">
-      <button class="action-button">Log in</button>
+      <RouterLink to="/login"><button class="action-button">Log in</button></RouterLink>
       <button class="action-button--alt">Sign up for free</button>
     </div>
   </div>
