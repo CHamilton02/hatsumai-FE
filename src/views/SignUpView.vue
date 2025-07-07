@@ -4,31 +4,31 @@ import PasswordInput from '@/components/PasswordInput.vue'
 </script>
 
 <template>
-  <div class="login-view-container">
-    <h1>Nice to see you again!</h1>
-    <div class="login-view-container__field">
-      <label class="login-view-container__field__label" for="email-field">Email</label>
+  <div class="sign-up-view-container">
+    <h1>Level up your creativity!</h1>
+    <div class="sign-up-view-container__field">
+      <label class="sign-up-view-container__field__label" for="email-field">Email</label>
       <EmailInput
         @user-input="(userInput) => console.log(userInput)"
         placeholder-text="Enter your email"
       />
     </div>
-    <div class="login-view-container__field">
-      <label class="login-view-container__field__label" for="password-field">Password</label>
+    <div class="sign-up-view-container__field">
+      <label class="sign-up-view-container__field__label" for="password-field">Password</label>
       <PasswordInput
         @user-input="(userInput) => console.log(userInput)"
         placeholder-text="Enter your password"
       />
     </div>
-    <button class="action-button">Log in</button>
-    <p>Don't have an account? <RouterLink to="/sign-up">Sign up here!</RouterLink></p>
+    <button class="action-button">Sign up</button>
+    <p>Already have an account? <RouterLink to="/login">Log in here!</RouterLink></p>
   </div>
 </template>
 
 <style scoped lang="scss">
 @use '@/assets/main.scss';
 
-.login-view-container {
+.sign-up-view-container {
   width: 100%;
   height: 100%;
   display: flex;

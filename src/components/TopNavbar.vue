@@ -5,7 +5,9 @@
     <img src="@/assets/hatsumaiLogo.svg" />
     <div class="top-navbar__log-in-buttons">
       <RouterLink to="/login"><button class="action-button">Log in</button></RouterLink>
-      <button class="action-button--alt">Sign up for free</button>
+      <RouterLink to="/sign-up"
+        ><button class="action-button--alt">Sign up for free</button></RouterLink
+      >
     </div>
   </div>
 </template>
