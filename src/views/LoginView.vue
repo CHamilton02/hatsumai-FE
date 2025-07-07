@@ -1,6 +1,42 @@
 <script setup lang="ts">
 import EmailInput from '@/components/EmailInput.vue'
 import PasswordInput from '@/components/PasswordInput.vue'
+import { useUserStore } from '@/stores/user'
+import type { User } from '@/types/services/Login'
+import { computed, ref, type Ref } from 'vue'
+import isEmailValid from '@/assets/utils/isEmailValid.ts'
+
+const user: Ref<User> = ref({
+  email: '',
+  password: '',
+})
+const isValidUser = computed(() => {
+  if (!!user.value.email && !!user.value.password) {
+    return isEmailValid(user.value.email)
+  }
+  return false
+})
+const showFailMessage = ref(false)
+
+const userStore = useUserStore()
+
+function onUserEmailChange(newUserEmail: string) {
+  user.value.email = newUserEmail
+}
+
+function onUserPasswordChange(newUserPassword: string) {
+  user.value.password = newUserPassword
+}
+
+async function onLogInButtonClick() {
+  if (isValidUser.value) {
+    try {
+      await userStore.login(user.value)
+    } catch {
+      showFailMessage.value = true
+    }
+  }
+}
 </script>
 
 <template>
@@ -9,18 +45,24 @@ import PasswordInput from '@/components/PasswordInput.vue'
     <div class="login-view-container__field">
       <label class="login-view-container__field__label" for="email-field">Email</label>
       <EmailInput
-        @user-input="(userInput) => console.log(userInput)"
+        @user-input="(userInput) => onUserEmailChange(userInput)"
         placeholder-text="Enter your email"
       />
     </div>
     <div class="login-view-container__field">
       <label class="login-view-container__field__label" for="password-field">Password</label>
       <PasswordInput
-        @user-input="(userInput) => console.log(userInput)"
+        @user-input="(userInput) => onUserPasswordChange(userInput)"
         placeholder-text="Enter your password"
       />
     </div>
-    <button class="action-button">Log in</button>
+    <p v-if="showFailMessage" class="error-text">Failed to log in. Please try again.</p>
+    <button
+      :class="isValidUser ? 'action-button' : 'action-button--disabled'"
+      @click="onLogInButtonClick"
+    >
+      Log in
+    </button>
     <p>Don't have an account? <RouterLink to="/sign-up">Sign up here!</RouterLink></p>
   </div>
 </template>

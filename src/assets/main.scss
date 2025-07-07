@@ -47,6 +47,16 @@ h2 {
     }
   }
 
+  &--disabled {
+    @extend .action-button;
+    opacity: 75%;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: $navy-blue-2 !important;
+    }
+  }
+
   &:hover {
     background-color: $navy-blue-light;
   }
@@ -64,4 +74,8 @@ h2 {
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+.error-text {
+  color: red;
 }
