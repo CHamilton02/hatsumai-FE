@@ -2,6 +2,7 @@ import type { User } from '@/types/services/Login'
 import { defineStore } from 'pinia'
 import { loginService, registerService } from '../services/userService'
 import { ref } from 'vue'
+import axios from 'axios'
 
 export const useUserStore = defineStore('userStore', () => {
   const userToken = ref('')
@@ -18,10 +19,12 @@ export const useUserStore = defineStore('userStore', () => {
   async function register(user: User) {
     try {
       await registerService(user)
-      login(user)
-    } catch {
-      console.error('Failed to register.')
-      throw new Error()
+      await login(user)
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response?.data.error === 'Email already exists') {
+        throw new Error('Email already exists. Please log in or try a different email.')
+      }
+      throw new Error('Failed to sign up. Please try again later.')
     }
   }
 
