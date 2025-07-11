@@ -16,7 +16,7 @@ const isValidUser = computed(() => {
   }
   return false
 })
-const showFailMessage = ref(false)
+const requestFailureMessage = ref('')
 
 const userStore = useUserStore()
 
@@ -32,8 +32,9 @@ async function onLogInButtonClick() {
   if (isValidUser.value) {
     try {
       await userStore.login(user.value)
-    } catch {
-      showFailMessage.value = true
+    } catch (error: unknown) {
+      if (error instanceof Error) requestFailureMessage.value = error.message
+      else requestFailureMessage.value = 'Failed to log in. Please try again later.'
     }
   }
 }
@@ -56,7 +57,7 @@ async function onLogInButtonClick() {
         placeholder-text="Enter your password"
       />
     </div>
-    <p v-if="showFailMessage" class="error-text">Failed to log in. Please try again.</p>
+    <p v-if="requestFailureMessage" class="error-text">{{ requestFailureMessage }}</p>
     <button
       :class="isValidUser ? 'action-button' : 'action-button--disabled'"
       @click="onLogInButtonClick"

@@ -11,8 +11,7 @@ export const useUserStore = defineStore('userStore', () => {
     try {
       userToken.value = await loginService(user)
     } catch {
-      console.error('Failed to log in,')
-      throw new Error()
+      throw new Error('Failed to log in. Please try again later.')
     }
   }
 
