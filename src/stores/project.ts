@@ -1,44 +1,12 @@
 import { computed, ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { DifficultyLevel } from '@/types/components/DifficultyDropdown'
-import type { Topic } from '@/types/components/TopicMultiselect'
+import type { DifficultyLevel } from '@/types/Project'
+import type { Topic } from '@/types/Project'
+import { getTopTenProjectTopicsService } from '@/services/projectService'
 
 export const useProjectStore = defineStore('projectStore', () => {
   const selectedDifficulty: Ref<DifficultyLevel | undefined> = ref()
-  const topics: Ref<Array<Topic>> = ref([
-    {
-      topic: 'React',
-      checked: false,
-    },
-    {
-      topic: 'Vue',
-      checked: false,
-    },
-    {
-      topic: 'TypeScript',
-      checked: false,
-    },
-    {
-      topic: 'Firebase',
-      checked: false,
-    },
-    {
-      topic: 'Express',
-      checked: false,
-    },
-    {
-      topic: 'AI',
-      checked: false,
-    },
-    {
-      topic: 'Front-end Dev',
-      checked: false,
-    },
-    {
-      topic: 'Back-end Dev',
-      checked: false,
-    },
-  ])
+  const topics: Ref<Array<Topic>> = ref([])
   const selectedTopics = computed(() => {
     return topics.value.filter((topic) => topic.checked)
   })
@@ -63,6 +31,14 @@ export const useProjectStore = defineStore('projectStore', () => {
     topics.value.push(topic)
   }
 
+  async function getTopTenProjectTopics() {
+    try {
+      return getTopTenProjectTopicsService()
+    } catch {
+      console.error('Failed to get top ten project topics.')
+    }
+  }
+
   return {
     selectedDifficulty,
     topics,
@@ -71,5 +47,6 @@ export const useProjectStore = defineStore('projectStore', () => {
     toggleCheckOnTopic,
     removeTopicByName,
     addTopic,
+    getTopTenProjectTopics,
   }
 })

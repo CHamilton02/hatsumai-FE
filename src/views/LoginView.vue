@@ -2,7 +2,7 @@
 import EmailInput from '@/components/EmailInput.vue'
 import PasswordInput from '@/components/PasswordInput.vue'
 import { useUserStore } from '@/stores/user'
-import type { User } from '@/types/services/Login'
+import type { User } from '@/types/User'
 import { computed, ref, type Ref } from 'vue'
 import isEmailValid from '@/assets/utils/isEmailValid.ts'
 

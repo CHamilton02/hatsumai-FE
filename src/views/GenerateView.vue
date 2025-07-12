@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue'
+import { onMounted, ref, type Ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import DifficultyDropdown from '@/components/DifficultyDropdown.vue'
 import TopicMultiselect from '@/components/TopicMultiselect.vue'
@@ -40,6 +40,16 @@ function getActionPhrase() {
 function onSubmitClick() {
   router.push('/project')
 }
+
+onMounted(async () => {
+  projectStore.topics =
+    (await projectStore.getTopTenProjectTopics())?.projectTopics.map((topic) => {
+      return {
+        topic,
+        checked: false,
+      }
+    }) || []
+})
 </script>
 
 <template>

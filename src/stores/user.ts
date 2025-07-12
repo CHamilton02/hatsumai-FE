@@ -1,4 +1,4 @@
-import type { User } from '@/types/services/Login'
+import type { User } from '@/types/User'
 import { defineStore } from 'pinia'
 import { loginService, registerService } from '../services/userService'
 import { ref } from 'vue'

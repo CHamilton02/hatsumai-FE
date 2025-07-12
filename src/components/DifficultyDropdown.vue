@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useProjectStore } from '@/stores/project'
-import { DifficultyLevel } from '@/types/components/DifficultyDropdown'
+import { DifficultyLevel } from '@/types/Project'
 import { Icon } from '@iconify/vue'
 import { storeToRefs } from 'pinia'
 import { ref, type Ref } from 'vue'
