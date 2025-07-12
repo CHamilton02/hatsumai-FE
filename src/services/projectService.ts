@@ -18,30 +18,17 @@ export async function postGenerateProjectService(
   const generatedProjectId = await axiosInstance.post<{ projectId: number }>(
     '/project/generate',
     projectRequestBody,
-    {
-      headers: {
-        Authorization: `${localStorage.getItem('access_token')}`,
-      },
-    },
   )
 
   return generatedProjectId.data
 }
 
 export async function getProjectByIdService(projectId: number) {
-  const project = await axiosInstance.get<Project>(`/project/${projectId}`, {
-    headers: {
-      Authorization: `${localStorage.getItem('access_token')}`,
-    },
-  })
+  const project = await axiosInstance.get<Project>(`/project/${projectId}`)
   return project.data
 }
 
 export async function getProjectHistoryService() {
-  const projectHistory = await axiosInstance.get<Array<PreviousProjectIdea>>('/project/history', {
-    headers: {
-      Authorization: `${localStorage.getItem('access_token')}`,
-    },
-  })
+  const projectHistory = await axiosInstance.get<Array<PreviousProjectIdea>>('/project/history')
   return projectHistory.data
 }

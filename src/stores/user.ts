@@ -3,13 +3,20 @@ import { defineStore } from 'pinia'
 import { loginService, registerService } from '../services/userService'
 import axios from 'axios'
 import router from '@/router'
+import { ref } from 'vue'
+import { axiosInstance } from '@/api/config'
 
 export const useUserStore = defineStore('userStore', () => {
+  const userEmail = ref('')
+
   async function login(user: User) {
     try {
-      localStorage.setItem('access_token', (await loginService(user)).token)
+      axiosInstance.defaults.headers.common['Authorization'] = (await loginService(user)).token
+      userEmail.value = user.email
       router.push('/generate')
-    } catch {
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error))
+        throw new Error('Incorrect email or password. Please try again.')
       throw new Error('Failed to log in. Please try again later.')
     }
   }
@@ -26,8 +33,16 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
+  function logout() {
+    axiosInstance.defaults.headers.common['Authorization'] = ''
+    userEmail.value = ''
+    router.push('/login')
+  }
+
   return {
+    userEmail,
     login,
     register,
+    logout,
   }
 })

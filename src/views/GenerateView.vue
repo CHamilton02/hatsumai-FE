@@ -111,7 +111,7 @@ onMounted(async () => {
 .user-interaction-container {
   width: 100%;
   max-width: 50rem;
-  background-color: #f2efe9;
+  background-color: main.$beige;
   padding: 1rem;
   border-radius: 1rem;
   display: flex;
