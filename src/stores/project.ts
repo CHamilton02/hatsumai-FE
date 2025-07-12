@@ -38,6 +38,16 @@ export const useProjectStore = defineStore('projectStore', () => {
     topics.value.push(topic)
   }
 
+  function clearSelections() {
+    topics.value = topics.value.map((topic) => {
+      return {
+        topic: topic.topic,
+        checked: false,
+      }
+    })
+    selectedDifficulty.value = undefined
+  }
+
   async function getTopTenProjectTopics() {
     try {
       return getTopTenProjectTopicsService()
@@ -56,6 +66,7 @@ export const useProjectStore = defineStore('projectStore', () => {
             description,
           })
         ).projectId
+        clearSelections()
         router.push(`/project/${projectId}`)
       }
     } catch {

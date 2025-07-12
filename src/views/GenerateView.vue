@@ -65,7 +65,13 @@ onMounted(async () => {
           v-model="userInput"
         ></textarea>
         <DifficultyDropdown />
-        <button class="invisible-button" @click="onSubmitClick">
+        <button
+          class="invisible-button"
+          @click="onSubmitClick"
+          v-if="
+            projectStore.selectedDifficulty && (projectStore.selectedTopics.length > 0 || userInput)
+          "
+        >
           <Icon
             :icon="
               loadingGeneratedProject
