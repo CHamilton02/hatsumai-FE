@@ -30,12 +30,14 @@ const actionPhrases: Array<string> = [
 const userInput: Ref<string> = ref('')
 const randomActionPhrase = getActionPhrase()
 const projectStore = useProjectStore()
+const loadingGeneratedProject = ref(false)
 
 function getActionPhrase() {
   return actionPhrases[Math.round(Math.random() * actionPhrases.length) - 1]
 }
 
 function onSubmitClick() {
+  loadingGeneratedProject.value = true
   projectStore.postGenerateProject(userInput.value)
 }
 
@@ -64,7 +66,14 @@ onMounted(async () => {
         ></textarea>
         <DifficultyDropdown />
         <button class="invisible-button" @click="onSubmitClick">
-          <Icon icon="material-symbols-light:arrow-circle-up-rounded" class="submit-icon" />
+          <Icon
+            :icon="
+              loadingGeneratedProject
+                ? 'line-md:loading-twotone-loop'
+                : 'material-symbols-light:arrow-circle-up-rounded'
+            "
+            class="submit-icon"
+          />
         </button>
       </div>
       <div class="user-interaction-container__topic-container">
