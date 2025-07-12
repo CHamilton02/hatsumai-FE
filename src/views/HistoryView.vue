@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import router from '@/router'
 import { useProjectStore } from '@/stores/project'
 import type { PreviousProjectIdea } from '@/types/Project'
 import { onMounted, ref, type Ref } from 'vue'
@@ -14,6 +15,10 @@ onMounted(async () => {
     showLoginMessage.value = true
   }
 })
+
+function onViewDetailsButtonClick(projectId: number) {
+  router.push(`/project/${projectId}`)
+}
 </script>
 
 <template>
@@ -36,7 +41,12 @@ onMounted(async () => {
               {{ `+ ${project.topics.length - 2} more` }}
             </div>
           </div>
-          <button class="history-view__project__view-details action-button">View Details</button>
+          <button
+            class="history-view__project__view-details action-button"
+            @click="onViewDetailsButtonClick(project.id)"
+          >
+            View Details
+          </button>
         </div>
       </div>
     </div>
