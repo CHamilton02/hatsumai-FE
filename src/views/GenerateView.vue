@@ -129,6 +129,11 @@ function onSubmitClick() {
       &::placeholder {
         color: main.$grey;
       }
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
     }
   }
 
