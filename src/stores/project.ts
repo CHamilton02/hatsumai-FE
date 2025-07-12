@@ -1,9 +1,10 @@
 import { computed, ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { DifficultyLevel, Project } from '@/types/Project'
+import type { DifficultyLevel, PreviousProjectIdea, Project } from '@/types/Project'
 import type { Topic } from '@/types/Project'
 import {
   getProjectByIdService,
+  getProjectHistoryService,
   getTopTenProjectTopicsService,
   postGenerateProjectService,
 } from '@/services/projectService'
@@ -63,10 +64,20 @@ export const useProjectStore = defineStore('projectStore', () => {
 
   async function getProjectById(projectId: number) {
     try {
-      const project: Project = (await getProjectByIdService(projectId)) as Project
+      const project: Project = await getProjectByIdService(projectId)
       return project
     } catch {
       console.error('Failed to get project by id.')
+    }
+  }
+
+  async function getProjectHistory() {
+    try {
+      const projectHistory: Array<PreviousProjectIdea> = await getProjectHistoryService()
+      return projectHistory
+    } catch {
+      console.error('Failed to get project history.')
+      throw new Error()
     }
   }
 
@@ -81,5 +92,6 @@ export const useProjectStore = defineStore('projectStore', () => {
     getTopTenProjectTopics,
     postGenerateProject,
     getProjectById,
+    getProjectHistory,
   }
 })

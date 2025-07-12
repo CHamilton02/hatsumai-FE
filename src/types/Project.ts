@@ -4,6 +4,13 @@ export interface Project {
   tips: Array<string>
 }
 
+export interface PreviousProjectIdea {
+  id: number
+  title: string
+  description: string
+  topics: Array<string>
+}
+
 export enum DifficultyLevel {
   Beginner = '🐣 Beginner',
   Intermediate = '💪 Intermediate',

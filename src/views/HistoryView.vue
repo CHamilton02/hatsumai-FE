@@ -1,50 +1,27 @@
 <script setup lang="ts">
-const projects = [
-  {
-    title: 'Portfolio Website',
-    description:
-      'Build a simple portfolio website showcasing three sections: a landing page, a "Projects" section with cards displaying brief details, and a "Contact" section with a contact form. Use React for structure, Sass for styling, and ensure it is fully responsive.',
-    topics: ['React', 'Front-end', 'Web design', 'About Me'],
-  },
-  {
-    title: 'Portfolio Website',
-    description:
-      'Build a simple portfolio website showcasing three sections: a landing page, a "Projects" section with cards displaying brief details, and a "Contact" section with a contact form. Use React for structure, Sass for styling, and ensure it is fully responsive.',
-    topics: ['React', 'Front-end', 'Web design', 'About Me', 'sefsefsgesgs'],
-  },
-  {
-    title: 'Portfolio Website',
-    description:
-      'Build a simple portfolio website showcasing three sections: a landing page, a "Projects" section with cards displaying brief details, and a "Contact" section with a contact form. Use React for structure, Sass for styling, and ensure it is fully responsive.',
-    topics: ['fegsegsegegseggesg', 'React', 'Front-end', 'Web design', 'About Me'],
-  },
-  {
-    title: 'Portfolio Website',
-    description:
-      'Build a simple portfolio website showcasing three sections: a landing page, a "Projects" section with cards displaying brief details, and a "Contact" section with a contact form. Use React for structure, Sass for styling, and ensure it is fully responsive.',
-    topics: ['React', 'awfafwfwafwfageaagwa', 'Front-end', 'Web design', 'About Me'],
-  },
-  {
-    title: 'Portfolio Website',
-    description:
-      'Build a simple portfolio website showcasing three sections: a landing page, a "Projects" section with cards displaying brief details, and a "Contact" section with a contact form. Use React for structure, Sass for styling, and ensure it is fully responsive.',
-    topics: ['React', 'awfafwfwafwfageaagwa', 'Front-end', 'Web design', 'About Me'],
-  },
-  {
-    title: 'Portfolio Website',
-    description:
-      'Build a simple portfolio website showcasing three sections: a landing page, a "Projects" section with cards displaying brief details, and a "Contact" section with a contact form. Use React for structure, Sass for styling, and ensure it is fully responsive.',
-    topics: ['React', 'awfafwfwafwfageaagwa', 'Front-end', 'Web design', 'About Me'],
-  },
-]
+import { useProjectStore } from '@/stores/project'
+import type { PreviousProjectIdea } from '@/types/Project'
+import { onMounted, ref, type Ref } from 'vue'
+
+const previousProjects: Ref<Array<PreviousProjectIdea>> = ref([])
+const projectStore = useProjectStore()
+const showLoginMessage = ref(false)
+
+onMounted(async () => {
+  try {
+    previousProjects.value = await projectStore.getProjectHistory()
+  } catch {
+    showLoginMessage.value = true
+  }
+})
 </script>
 
 <template>
   <div class="history-view-container">
-    <div class="history-view">
+    <div class="history-view" v-if="!showLoginMessage && previousProjects.length > 0">
       <h1 class="history-view__header">Previous Project Ideas</h1>
       <div class="history-view__projects-container">
-        <div v-for="project in projects" :key="project.title" class="history-view__project">
+        <div v-for="project in previousProjects" :key="project.title" class="history-view__project">
           <div class="history-view__project__title">{{ project.title }}</div>
           <p class="history-view__project__description">{{ project.description }}</p>
           <div class="history-view__project__topics">
@@ -63,6 +40,9 @@ const projects = [
         </div>
       </div>
     </div>
+  </div>
+  <div class="login-message-container" v-if="showLoginMessage">
+    <h1>Log in to view your project history!</h1>
   </div>
 </template>
 
@@ -134,5 +114,13 @@ const projects = [
       border-radius: 0.25rem;
     }
   }
+}
+
+.login-message-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

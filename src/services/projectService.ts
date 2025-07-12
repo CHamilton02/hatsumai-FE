@@ -1,8 +1,9 @@
 import { axiosInstance } from '@/api/config'
-import type {
-  GenerateProjectAPIRequestBody,
-  Project,
-  TopTenProjectTopicsAPIResponse,
+import {
+  type PreviousProjectIdea,
+  type GenerateProjectAPIRequestBody,
+  type Project,
+  type TopTenProjectTopicsAPIResponse,
 } from '@/types/Project'
 
 export async function getTopTenProjectTopicsService() {
@@ -34,4 +35,13 @@ export async function getProjectByIdService(projectId: number) {
     },
   })
   return project.data
+}
+
+export async function getProjectHistoryService() {
+  const projectHistory = await axiosInstance.get<Array<PreviousProjectIdea>>('/project/history', {
+    headers: {
+      Authorization: `${localStorage.getItem('access_token')}`,
+    },
+  })
+  return projectHistory.data
 }
