@@ -1,9 +1,18 @@
 <script setup lang="ts">
+import pdfMake from 'pdfmake/build/pdfmake'
 import { useProjectStore } from '@/stores/project'
 import type { Project } from '@/types/Project'
 import { Icon } from '@iconify/vue'
 import { onMounted, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
+import type { TDocumentDefinitions } from 'pdfmake/interfaces'
+import * as rawPdfFonts from 'pdfmake/build/vfs_fonts'
+import { cloneDeep } from 'lodash-es'
+import hatsumaiLogo from '../assets/hatsumaiLogo.svg?raw'
+import type { PdfFontsExport } from '@/types/PdfMakeCustomTypes'
+
+const pdfFonts = rawPdfFonts as PdfFontsExport
+pdfMake.vfs = pdfFonts.pdfMake?.vfs || {}
 
 const route = useRoute()
 const project: Ref<Project | undefined> = ref()
@@ -12,6 +21,48 @@ const projectStore = useProjectStore()
 onMounted(async () => {
   project.value = await projectStore.getProjectById(Number(route.params.id))
 })
+
+function onDownloadButtonClick() {
+  const formattedTips =
+    cloneDeep(project.value?.tips)?.map((tip) => {
+      return { text: tip, style: 'tip' }
+    }) || []
+
+  const docDefinition: TDocumentDefinitions = {
+    content: [
+      { svg: hatsumaiLogo, style: 'svgLogo' },
+      { text: project.value?.title || '', style: 'header' },
+      { text: project.value?.description || '', style: 'body' },
+      { text: 'Tips', style: 'header2' },
+      { ul: formattedTips },
+    ],
+
+    styles: {
+      svgLogo: {
+        marginBottom: 20,
+      },
+      header: {
+        fontSize: 24,
+        alignment: 'center',
+        marginBottom: 5,
+      },
+      body: {
+        fontSize: 12,
+        marginBottom: 10,
+      },
+      header2: {
+        fontSize: 18,
+        alignment: 'center',
+        marginBottom: 5,
+      },
+      tip: {
+        marginBottom: 5,
+      },
+    },
+  }
+
+  pdfMake.createPdf(docDefinition).download('GeneratedProject.pdf')
+}
 </script>
 
 <template>
@@ -25,7 +76,7 @@ onMounted(async () => {
       <div v-for="(tip, index) in project.tips" :key="`tip-${index}`" class="idea-view__tip">
         {{ tip }}
       </div>
-      <button class="action-button idea-view__download-button">
+      <button class="action-button idea-view__download-button" @click="onDownloadButtonClick">
         <Icon icon="material-symbols-light:download-rounded" class="download-icon" />
         Download
       </button>
