@@ -4,7 +4,6 @@ import { Icon } from '@iconify/vue'
 import DifficultyDropdown from '@/components/DifficultyDropdown.vue'
 import TopicMultiselect from '@/components/TopicMultiselect.vue'
 import { useProjectStore } from '@/stores/project'
-import { useRouter } from 'vue-router'
 
 const actionPhrases: Array<string> = [
   'What do you wanna build before your next all-nighter?',
@@ -31,14 +30,13 @@ const actionPhrases: Array<string> = [
 const userInput: Ref<string> = ref('')
 const randomActionPhrase = getActionPhrase()
 const projectStore = useProjectStore()
-const router = useRouter()
 
 function getActionPhrase() {
   return actionPhrases[Math.round(Math.random() * actionPhrases.length) - 1]
 }
 
 function onSubmitClick() {
-  router.push('/project')
+  projectStore.postGenerateProject(userInput.value)
 }
 
 onMounted(async () => {
@@ -81,10 +79,10 @@ onMounted(async () => {
           <button
             class="user-interaction-container__topic-container__topics__topic"
             v-for="selectedTopic in projectStore.selectedTopics"
-            :key="selectedTopic.topic"
-            @click="projectStore.removeTopicByName(selectedTopic.topic)"
+            :key="selectedTopic"
+            @click="projectStore.removeTopicByName(selectedTopic)"
           >
-            {{ selectedTopic.topic }}
+            {{ selectedTopic }}
             <Icon icon="material-symbols-light:close-rounded" class="clickable-icon" />
           </button>
         </div>

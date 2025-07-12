@@ -1,24 +1,28 @@
 <script setup lang="ts">
+import { useProjectStore } from '@/stores/project'
+import type { Project } from '@/types/Project'
 import { Icon } from '@iconify/vue'
+import { onMounted, ref, type Ref } from 'vue'
+import { useRoute } from 'vue-router'
 
-const tips = [
-  'Use React components for each section (e.g., ‹LandingPage />, ‹Projects />, ‹Contact/>).',
-  'Leverage Sass features like variables and mixins to create a cohesive design.',
-  'Focus on responsive design using media queries in Sass for different screen sizes.',
-]
+const route = useRoute()
+const project: Ref<Project | undefined> = ref()
+const projectStore = useProjectStore()
+
+onMounted(async () => {
+  project.value = await projectStore.getProjectById(Number(route.params.id))
+})
 </script>
 
 <template>
   <div class="idea-view-container">
-    <div class="idea-view">
-      <h1>Portfolio Website</h1>
+    <div class="idea-view" v-if="project">
+      <h1>{{ project.title }}</h1>
       <p>
-        Build a simple portfolio website showcasing three sections: a landing page, a "Projects"
-        section with cards displaying brief details, and a "Contact" section with a contact form.
-        Use React for structure, Sass for styling, and ensure it is fully responsive.
+        {{ project.description }}
       </p>
       <h2>Tips</h2>
-      <div v-for="(tip, index) in tips" :key="`tip-${index}`" class="idea-view__tip">
+      <div v-for="(tip, index) in project.tips" :key="`tip-${index}`" class="idea-view__tip">
         {{ tip }}
       </div>
       <button class="action-button idea-view__download-button">

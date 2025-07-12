@@ -1,3 +1,9 @@
+export interface Project {
+  title: string
+  description: string
+  tips: Array<string>
+}
+
 export enum DifficultyLevel {
   Beginner = '🐣 Beginner',
   Intermediate = '💪 Intermediate',
@@ -11,4 +17,10 @@ export interface Topic {
 
 export interface TopTenProjectTopicsAPIResponse {
   projectTopics: Array<string>
+}
+
+export interface GenerateProjectAPIRequestBody {
+  topics: Array<string>
+  description: string
+  difficulty: DifficultyLevel
 }

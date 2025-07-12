@@ -20,7 +20,7 @@ const router = createRouter({
       component: GenerateView,
     },
     {
-      path: '/project',
+      path: '/project/:id',
       name: 'project',
       component: ProjectView,
     },

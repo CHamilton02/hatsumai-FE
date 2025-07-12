@@ -1,14 +1,19 @@
 import { computed, ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { DifficultyLevel } from '@/types/Project'
+import type { DifficultyLevel, Project } from '@/types/Project'
 import type { Topic } from '@/types/Project'
-import { getTopTenProjectTopicsService } from '@/services/projectService'
+import {
+  getProjectByIdService,
+  getTopTenProjectTopicsService,
+  postGenerateProjectService,
+} from '@/services/projectService'
+import router from '@/router'
 
 export const useProjectStore = defineStore('projectStore', () => {
   const selectedDifficulty: Ref<DifficultyLevel | undefined> = ref()
   const topics: Ref<Array<Topic>> = ref([])
   const selectedTopics = computed(() => {
-    return topics.value.filter((topic) => topic.checked)
+    return topics.value.filter((topic) => topic.checked).map((topic) => topic.topic)
   })
 
   function filteredTopics(userInput: string) {
@@ -39,6 +44,32 @@ export const useProjectStore = defineStore('projectStore', () => {
     }
   }
 
+  async function postGenerateProject(description: string) {
+    try {
+      if (selectedDifficulty.value) {
+        const projectId = (
+          await postGenerateProjectService({
+            topics: selectedTopics.value,
+            difficulty: selectedDifficulty.value,
+            description,
+          })
+        ).projectId
+        router.push(`/project/${projectId}`)
+      }
+    } catch {
+      console.error('Failed to generate project.')
+    }
+  }
+
+  async function getProjectById(projectId: number) {
+    try {
+      const project: Project = (await getProjectByIdService(projectId)) as Project
+      return project
+    } catch {
+      console.error('Failed to get project by id.')
+    }
+  }
+
   return {
     selectedDifficulty,
     topics,
@@ -48,5 +79,7 @@ export const useProjectStore = defineStore('projectStore', () => {
     removeTopicByName,
     addTopic,
     getTopTenProjectTopics,
+    postGenerateProject,
+    getProjectById,
   }
 })
