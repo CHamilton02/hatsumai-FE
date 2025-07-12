@@ -1,15 +1,14 @@
 import type { User } from '@/types/User'
 import { defineStore } from 'pinia'
 import { loginService, registerService } from '../services/userService'
-import { ref } from 'vue'
 import axios from 'axios'
+import router from '@/router'
 
 export const useUserStore = defineStore('userStore', () => {
-  const userToken = ref('')
-
   async function login(user: User) {
     try {
-      userToken.value = await loginService(user)
+      localStorage.setItem('access_token', (await loginService(user)).token)
+      router.push('/generate')
     } catch {
       throw new Error('Failed to log in. Please try again later.')
     }
@@ -28,7 +27,6 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   return {
-    userToken,
     login,
     register,
   }

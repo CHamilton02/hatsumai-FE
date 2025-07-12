@@ -1,8 +1,8 @@
 import { axiosInstance } from '@/api/config'
-import type { User } from '@/types/services/Login'
+import type { User } from '@/types/User'
 
 export async function loginService(user: User) {
-  const userToken = await axiosInstance.post<string>('/user/login', user)
+  const userToken = await axiosInstance.post<{ token: string }>('/user/login', user)
   return userToken.data
 }
 
