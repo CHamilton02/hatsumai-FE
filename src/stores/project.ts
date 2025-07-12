@@ -13,18 +13,19 @@ import router from '@/router'
 export const useProjectStore = defineStore('projectStore', () => {
   const selectedDifficulty: Ref<DifficultyLevel | undefined> = ref()
   const topics: Ref<Array<Topic>> = ref([])
+  const filteredTopics: Ref<Array<Topic>> = ref([])
   const selectedTopics = computed(() => {
     return topics.value.filter((topic) => topic.checked).map((topic) => topic.topic)
   })
 
-  function filteredTopics(userInput: string) {
-    return topics.value.filter((topic) => {
+  function filterTopics(userInput: string) {
+    filteredTopics.value = topics.value.filter((topic) => {
       return topic.topic.slice(0, userInput.length).toLowerCase() === userInput.toLowerCase()
     })
   }
 
   function toggleCheckOnTopic(index: number) {
-    topics.value[index].checked = !topics.value[index].checked
+    filteredTopics.value[index].checked = !filteredTopics.value[index].checked
   }
 
   function removeTopicByName(topicName: string) {
@@ -86,6 +87,7 @@ export const useProjectStore = defineStore('projectStore', () => {
     topics,
     selectedTopics,
     filteredTopics,
+    filterTopics,
     toggleCheckOnTopic,
     removeTopicByName,
     addTopic,

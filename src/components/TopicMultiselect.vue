@@ -7,7 +7,8 @@ const isMultiselectMenuVisible: Ref<boolean> = ref(false)
 const inputtedTopic = defineModel()
 const projectStore = useProjectStore()
 const displayedTopics = computed(() => {
-  return projectStore.filteredTopics(inputtedTopic.value ? String(inputtedTopic.value) : '')
+  projectStore.filterTopics(inputtedTopic.value ? String(inputtedTopic.value) : '')
+  return projectStore.filteredTopics
 })
 
 function onMultiselectButtonClick() {
