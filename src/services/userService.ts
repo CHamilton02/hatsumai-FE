@@ -9,3 +9,7 @@ export async function loginService(user: User) {
 export async function registerService(user: User) {
   await axiosInstance.post<string>('/user/register', user)
 }
+
+export async function forgotPasswordService(email: string) {
+  await axiosInstance.post<string>('/user/forgot-password', { email })
+}
