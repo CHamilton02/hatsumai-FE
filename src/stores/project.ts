@@ -50,9 +50,9 @@ export const useProjectStore = defineStore('projectStore', () => {
 
   async function getTopTenProjectTopics() {
     try {
-      return getTopTenProjectTopicsService()
+      return await getTopTenProjectTopicsService()
     } catch {
-      console.error('Failed to get top ten project topics.')
+      redirectToErrorPage('Failed to get top ten project topics.')
     }
   }
 
@@ -70,7 +70,7 @@ export const useProjectStore = defineStore('projectStore', () => {
         router.push(`/project/${projectId}`)
       }
     } catch {
-      console.error('Failed to generate project.')
+      redirectToErrorPage('Failed to generate project.')
     }
   }
 
@@ -79,18 +79,26 @@ export const useProjectStore = defineStore('projectStore', () => {
       const project: Project = await getProjectByIdService(projectId)
       return project
     } catch {
-      console.error('Failed to get project by id.')
+      redirectToErrorPage('Failed to get project by id.')
     }
   }
 
-  async function getProjectHistory() {
+  async function getProjectHistory(loggedIn: boolean) {
     try {
       const projectHistory: Array<PreviousProjectIdea> = await getProjectHistoryService()
       return projectHistory
     } catch {
-      console.error('Failed to get project history.')
-      throw new Error()
+      if (!loggedIn) {
+        console.error('Failed to get project history.')
+        throw new Error()
+      }
+      redirectToErrorPage('Failed to get project history')
     }
+  }
+
+  function redirectToErrorPage(errorMessage: string) {
+    console.error(errorMessage)
+    router.push('/error')
   }
 
   return {

@@ -1,3 +1,4 @@
+import ErrorView from '@/views/ErrorView.vue'
 import GenerateView from '@/views/GenerateView.vue'
 import HistoryView from '@/views/HistoryView.vue'
 import HomeView from '@/views/HomeView.vue'
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/sign-up',
       name: 'sign up',
       component: SignUpView,
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: ErrorView,
     },
   ],
 })

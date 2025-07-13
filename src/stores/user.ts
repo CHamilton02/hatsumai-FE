@@ -15,8 +15,9 @@ export const useUserStore = defineStore('userStore', () => {
       userEmail.value = user.email
       router.push('/generate')
     } catch (error: unknown) {
-      if (axios.isAxiosError(error))
+      if (axios.isAxiosError(error) && error.status) {
         throw new Error('Incorrect email or password. Please try again.')
+      }
       throw new Error('Failed to log in. Please try again later.')
     }
   }

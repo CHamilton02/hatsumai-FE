@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import router from '@/router'
 import { useProjectStore } from '@/stores/project'
+import { useUserStore } from '@/stores/user'
 import type { PreviousProjectIdea } from '@/types/Project'
 import { onMounted, ref, type Ref } from 'vue'
 
+const userStore = useUserStore()
 const previousProjects: Ref<Array<PreviousProjectIdea>> = ref([])
 const projectStore = useProjectStore()
 const showLoginMessage = ref(false)
 
 onMounted(async () => {
   try {
-    previousProjects.value = await projectStore.getProjectHistory()
+    previousProjects.value =
+      (await projectStore.getProjectHistory(userStore.userEmail !== '')) || []
   } catch {
     showLoginMessage.value = true
   }
