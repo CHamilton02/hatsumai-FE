@@ -5,6 +5,7 @@ import PasswordInput from '@/components/PasswordInput.vue'
 import { useUserStore } from '@/stores/user'
 import type { User } from '@/types/User'
 import { computed, ref, type Ref } from 'vue'
+import { Icon } from '@iconify/vue'
 
 const user: Ref<User> = ref({
   email: '',
@@ -57,10 +58,12 @@ async function onSignUpButtonClick() {
         placeholder-text="Enter your password"
       />
     </div>
-    <p v-if="signUpFailureMessage" class="error-text">
-      {{ signUpFailureMessage }}
-    </p>
+    <div class="sign-up-view-container__error-message" v-if="signUpFailureMessage">
+      <Icon icon="material-symbols:error-outline" />
+      <p>{{ signUpFailureMessage }}</p>
+    </div>
     <button
+      class="sign-up-view-container__button"
       :class="isValidUser ? 'action-button' : 'action-button--disabled'"
       @click="onSignUpButtonClick()"
     >
@@ -92,6 +95,18 @@ async function onSignUpButtonClick() {
       margin-left: 1rem;
       color: main.$navy-blue;
     }
+  }
+
+  &__error-message {
+    display: flex;
+    color: red;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  &__button {
+    width: 100%;
+    max-width: 22rem;
   }
 }
 </style>
