@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/user'
 import type { User } from '@/types/User'
 import { computed, ref, type Ref } from 'vue'
 import isEmailValid from '@/assets/utils/isEmailValid.ts'
+import { Icon } from '@iconify/vue'
 
 const user: Ref<User> = ref({
   email: '',
@@ -48,6 +49,7 @@ async function onLogInButtonClick() {
       <EmailInput
         @user-input="(userInput) => onUserEmailChange(userInput)"
         placeholder-text="Enter your email"
+        :error="requestFailureMessage !== ''"
       />
     </div>
     <div class="login-view-container__field">
@@ -55,10 +57,18 @@ async function onLogInButtonClick() {
       <PasswordInput
         @user-input="(userInput) => onUserPasswordChange(userInput)"
         placeholder-text="Enter your password"
+        :error="requestFailureMessage !== ''"
       />
+      <div class="login-view-container__error-message" v-if="requestFailureMessage">
+        <Icon icon="material-symbols:error-outline" />
+        <p>{{ requestFailureMessage }}</p>
+      </div>
     </div>
-    <p v-if="requestFailureMessage" class="error-text">{{ requestFailureMessage }}</p>
+    <div class="login-view-container__forgot-password-container">
+      <RouterLink to="/forgot-password">Forgot password?</RouterLink>
+    </div>
     <button
+      class="login-view-container__button"
       :class="isValidUser ? 'action-button' : 'action-button--disabled'"
       @click="onLogInButtonClick"
     >
@@ -89,6 +99,24 @@ async function onLogInButtonClick() {
       margin-left: 1rem;
       color: main.$navy-blue;
     }
+  }
+
+  &__error-message {
+    display: flex;
+    color: red;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  &__forgot-password-container {
+    width: 100%;
+    max-width: 22rem;
+    margin-bottom: 1rem;
+  }
+
+  &__button {
+    width: 100%;
+    max-width: 22rem;
   }
 }
 </style>

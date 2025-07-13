@@ -80,3 +80,34 @@ h2 {
 .error-text {
   color: red;
 }
+
+.input-field {
+  border: solid 0.01rem $light-grey-2;
+  width: 100%;
+  padding: 1rem 1rem;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+
+  &--error {
+    @extend .input-field;
+
+    border-color: red;
+  }
+
+  &:focus-within {
+    border-color: $navy-blue;
+  }
+
+  &__input {
+    border: 0;
+    width: 100%;
+    font-size: 1rem;
+    font-family: 'Roboto';
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

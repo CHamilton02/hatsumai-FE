@@ -1,4 +1,5 @@
 import ErrorView from '@/views/ErrorView.vue'
+import ForgotPasswordView from '@/views/ForgotPasswordView.vue'
 import GenerateView from '@/views/GenerateView.vue'
 import HistoryView from '@/views/HistoryView.vue'
 import HomeView from '@/views/HomeView.vue'
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/error',
       name: 'error',
       component: ErrorView,
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgot password',
+      component: ForgotPasswordView,
     },
   ],
 })
