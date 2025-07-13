@@ -54,6 +54,9 @@ function onViewDetailsButtonClick(projectId: number) {
   <div class="login-message-container" v-if="showLoginMessage">
     <h1>Log in to view your project history!</h1>
   </div>
+  <div class="login-message-container" v-if="previousProjects.length <= 0">
+    <h1>You haven't generated any projects yet!</h1>
+  </div>
 </template>
 
 <style scoped lang="scss">
