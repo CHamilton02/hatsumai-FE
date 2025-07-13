@@ -38,6 +38,7 @@ export const useUserStore = defineStore('userStore', () => {
   async function forgotPassword(email: string) {
     try {
       await forgotPasswordService(email)
+      router.push('/forgot-password/success')
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data.error === 'Email does not exist.') {
         throw new EmailDoesNotExistError('There does not exist an account with this email.')
