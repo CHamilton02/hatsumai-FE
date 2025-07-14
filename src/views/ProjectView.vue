@@ -68,7 +68,7 @@ function onDownloadButtonClick() {
 <template>
   <div class="idea-view-container">
     <div class="idea-view" v-if="project">
-      <h1>{{ project.title }}</h1>
+      <h1 class="idea-view__title">{{ project.title }}</h1>
       <p>
         {{ project.description }}
       </p>
@@ -90,7 +90,6 @@ function onDownloadButtonClick() {
 .idea-view-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   height: 100%;
   width: 100%;
 }
@@ -101,6 +100,10 @@ function onDownloadButtonClick() {
   align-items: center;
   max-width: 50rem;
   gap: 1rem;
+
+  &__title {
+    margin-top: 5rem;
+  }
 
   &__tip {
     background-color: #f2efe9;
