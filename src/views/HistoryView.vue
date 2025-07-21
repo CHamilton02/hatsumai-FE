@@ -30,18 +30,18 @@ function onViewDetailsButtonClick(projectId: number) {
       <h1 class="history-view__header">Previous Project Ideas</h1>
       <div class="history-view__projects-container">
         <div v-for="project in previousProjects" :key="project.title" class="history-view__project">
-          <div class="history-view__project__title">{{ project.title }}</div>
+          <h2 class="history-view__project__title">{{ project.title }}</h2>
           <p class="history-view__project__description">{{ project.description }}</p>
           <div class="history-view__project__topics">
             <div
-              v-for="topic in project.topics.slice(0, 2)"
+              v-for="topic in project.topics.slice(0, 4)"
               :key="`${project.title}-${topic}`"
               class="history-view__project__topics__topic"
             >
               {{ topic }}
             </div>
-            <div v-if="project.topics.length > 2" class="history-view__project__topics__topic">
-              {{ `+ ${project.topics.length - 2} more` }}
+            <div v-if="project.topics.length > 4" class="history-view__project__topics__topic">
+              {{ `+ ${project.topics.length - 4} more` }}
             </div>
           </div>
           <button
@@ -57,7 +57,7 @@ function onViewDetailsButtonClick(projectId: number) {
   <div class="login-message-container" v-if="showLoginMessage">
     <h1>Log in to view your project history!</h1>
   </div>
-  <div class="login-message-container" v-if="previousProjects.length <= 0">
+  <div class="login-message-container" v-if="previousProjects.length <= 0 && !showLoginMessage">
     <h1>You haven't generated any projects yet!</h1>
   </div>
 </template>
@@ -74,6 +74,7 @@ function onViewDetailsButtonClick(projectId: number) {
 .history-view {
   max-width: 50rem;
   padding-bottom: 2rem;
+  width: 100%;
 
   &__header {
     margin-top: 5rem;
@@ -87,8 +88,6 @@ function onViewDetailsButtonClick(projectId: number) {
   }
 
   &__project {
-    display: flex;
-    align-items: center;
     gap: 1rem;
     background-color: #f2efe9;
     padding: 1rem;
@@ -109,7 +108,7 @@ function onViewDetailsButtonClick(projectId: number) {
       display: flex;
       flex-wrap: wrap;
       gap: 0.25rem;
-      width: 6rem;
+      margin-bottom: 0.5rem;
 
       &__topic {
         background-color: main.$light-grey-3;
@@ -120,6 +119,8 @@ function onViewDetailsButtonClick(projectId: number) {
         border-radius: 0.35rem;
         font-family: 'Roboto';
         font-size: 0.9rem;
+        max-width: 6rem;
+        text-overflow: ellipsis;
       }
     }
 

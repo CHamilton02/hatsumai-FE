@@ -9,12 +9,19 @@ $light-grey-3: #eae6dd;
 $beige: #f2efe9;
 $success-green: #82dd55;
 
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 html,
 body,
 #app {
   margin: 0;
   height: 100%;
   font-family: 'Roboto';
+  box-sizing: border-box;
 }
 
 h1,
