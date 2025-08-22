@@ -3,22 +3,15 @@ import SideNavbar from './components/SideNavbar.vue'
 import { RouterView } from 'vue-router'
 import TopNavbar from './components/TopNavbar.vue'
 import MobileNav from './components/MobileNav.vue'
-import { ref } from 'vue'
-
-const windowWidth = ref(0)
-
-window.addEventListener('resize', () => {
-  windowWidth.value = window.innerWidth
-})
 </script>
 
 <template>
   <div class="app-container">
-    <div v-if="windowWidth >= 950">
+    <div class="regular-nav">
       <SideNavbar />
       <TopNavbar />
     </div>
-    <MobileNav v-if="windowWidth < 950" />
+    <MobileNav class="small-screen-nav" />
     <main class="app-container__main">
       <RouterView />
     </main>
@@ -42,12 +35,28 @@ window.addEventListener('resize', () => {
     padding: 2.5rem;
     margin: 0;
   }
+
+  .small-screen-nav {
+    display: initial;
+  }
+
+  .regular-nav {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 950px) {
   .app-container__main {
     padding: 0;
     margin-left: 5rem;
+  }
+
+  .small-screen-nav {
+    display: none;
+  }
+
+  .regular-nav {
+    display: initial;
   }
 }
 </style>
