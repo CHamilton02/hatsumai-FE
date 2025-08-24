@@ -26,67 +26,69 @@ function onLogoutButtonClick() {
 </script>
 
 <template>
-  <button class="invisible-button menu-icon-button" @click="onMenuIconClick">
-    <Icon
-      class="menu-icon"
-      :class="{ 'menu-icon--open': isMobileMenuVisible }"
-      icon="material-symbols:menu-rounded"
-    />
-  </button>
-  <div class="mobile-nav" v-if="isMobileMenuVisible">
-    <div class="mobile-nav__view-options">
-      <button
-        class="mobile-nav__view-options__option"
-        :class="{ 'mobile-nav__view-options__option--active': route.path === '/' }"
-        @click="onNavOptionClick('/')"
-      >
-        <Icon icon="material-symbols-light:home-outline" class="nav-icon" />
-        Home
-      </button>
-      <button
-        class="mobile-nav__view-options__option"
-        :class="{ 'mobile-nav__view-options__option--active': route.path === '/generate' }"
-        @click="onNavOptionClick('/generate')"
-      >
-        <Icon icon="material-symbols-light:lightbulb-2-outline" class="nav-icon" />
-        Generate
-      </button>
-      <button
-        class="mobile-nav__view-options__option"
-        :class="{ 'mobile-nav__view-options__option--active': route.path === '/history' }"
-        @click="onNavOptionClick('/history')"
-      >
-        <Icon icon="material-symbols-light:history" class="nav-icon" />
-        History
-      </button>
-    </div>
-    <div class="mobile-nav__user-options">
-      <div v-if="userStore.userEmail">
-        <div class="mobile-nav__user-options__user-email">
-          {{ userStore.userEmail.toUpperCase() }}
+  <nav>
+    <button class="invisible-button menu-icon-button" @click="onMenuIconClick">
+      <Icon
+        class="menu-icon"
+        :class="{ 'menu-icon--open': isMobileMenuVisible }"
+        icon="material-symbols:menu-rounded"
+      />
+    </button>
+    <div class="mobile-nav" v-if="isMobileMenuVisible">
+      <div class="mobile-nav__view-options">
+        <button
+          class="mobile-nav__view-options__option"
+          :class="{ 'mobile-nav__view-options__option--active': route.path === '/' }"
+          @click="onNavOptionClick('/')"
+        >
+          <Icon icon="material-symbols-light:home-outline" class="nav-icon" />
+          Home
+        </button>
+        <button
+          class="mobile-nav__view-options__option"
+          :class="{ 'mobile-nav__view-options__option--active': route.path === '/generate' }"
+          @click="onNavOptionClick('/generate')"
+        >
+          <Icon icon="material-symbols-light:lightbulb-2-outline" class="nav-icon" />
+          Generate
+        </button>
+        <button
+          class="mobile-nav__view-options__option"
+          :class="{ 'mobile-nav__view-options__option--active': route.path === '/history' }"
+          @click="onNavOptionClick('/history')"
+        >
+          <Icon icon="material-symbols-light:history" class="nav-icon" />
+          History
+        </button>
+      </div>
+      <div class="mobile-nav__user-options">
+        <div v-if="userStore.userEmail">
+          <div class="mobile-nav__user-options__user-email">
+            {{ userStore.userEmail.toUpperCase() }}
+          </div>
+          <button class="mobile-nav__view-options__option" @click="onLogoutButtonClick">
+            <Icon icon="material-symbols:logout" /> Log out
+          </button>
         </div>
-        <button class="mobile-nav__view-options__option" @click="onLogoutButtonClick">
-          <Icon icon="material-symbols:logout" /> Log out
-        </button>
-      </div>
-      <div v-if="!userStore.userEmail">
-        <button
-          class="mobile-nav__view-options__option"
-          :class="{ 'mobile-nav__view-options__option--active': route.path === '/login' }"
-          @click="onNavOptionClick('/login')"
-        >
-          Log In
-        </button>
-        <button
-          class="mobile-nav__view-options__option"
-          :class="{ 'mobile-nav__view-options__option--active': route.path === '/sign-up' }"
-          @click="onNavOptionClick('/sign-up')"
-        >
-          Sign Up
-        </button>
+        <div v-if="!userStore.userEmail">
+          <button
+            class="mobile-nav__view-options__option"
+            :class="{ 'mobile-nav__view-options__option--active': route.path === '/login' }"
+            @click="onNavOptionClick('/login')"
+          >
+            Log In
+          </button>
+          <button
+            class="mobile-nav__view-options__option"
+            :class="{ 'mobile-nav__view-options__option--active': route.path === '/sign-up' }"
+            @click="onNavOptionClick('/sign-up')"
+          >
+            Sign Up
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  </nav>
 </template>
 
 <style scoped lang="scss">
