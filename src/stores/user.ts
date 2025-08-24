@@ -1,11 +1,20 @@
 import type { User } from '@/types/User'
 import { defineStore } from 'pinia'
-import { forgotPasswordService, loginService, registerService } from '../services/userService'
+import {
+  forgotPasswordService,
+  loginService,
+  registerService,
+  resetPasswordService,
+} from '../services/userService'
 import axios from 'axios'
 import router from '@/router'
 import { ref } from 'vue'
 import { axiosInstance } from '@/api/config'
-import { EmailDoesNotExistError, ExistingPasswordResetRequest } from '@/types/errors/User'
+import {
+  EmailDoesNotExistError,
+  ExistingPasswordResetRequest,
+  InvalidPasswordResetRequest,
+} from '@/types/errors/User'
 
 export const useUserStore = defineStore('userStore', () => {
   const userEmail = ref('')
@@ -54,6 +63,22 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
+  async function resetPassword(newPassword: string, token: string) {
+    try {
+      await resetPasswordService(newPassword, token)
+      router.push('/login')
+    } catch (error) {
+      if (
+        axios.isAxiosError(error) &&
+        (error.response?.data.error === 'Password reset request not found.' ||
+          error.response?.data.error === 'Password reset request is expired')
+      ) {
+        throw new InvalidPasswordResetRequest('Please use a valid password reset request link.')
+      }
+      throw new Error()
+    }
+  }
+
   function logout() {
     axiosInstance.defaults.headers.common['Authorization'] = ''
     userEmail.value = ''
@@ -66,5 +91,6 @@ export const useUserStore = defineStore('userStore', () => {
     register,
     logout,
     forgotPassword,
+    resetPassword,
   }
 })

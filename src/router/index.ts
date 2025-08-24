@@ -5,6 +5,7 @@ import HistoryView from '@/views/HistoryView.vue'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import ProjectView from '@/views/ProjectView.vue'
+import ResetPasswordView from '@/views/ResetPasswordView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import SuccessView from '@/views/SuccessView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -61,6 +62,11 @@ const router = createRouter({
         body: 'Follow the link in your inbox to reset your password. This link will expire in 10 minutes.',
         icon: 'line-md:email',
       },
+    },
+    {
+      path: '/reset-password',
+      name: 'reset password',
+      component: ResetPasswordView,
     },
   ],
 })

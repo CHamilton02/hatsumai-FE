@@ -13,3 +13,11 @@ export class ExistingPasswordResetRequest extends Error {
     Object.setPrototypeOf(this, ExistingPasswordResetRequest.prototype)
   }
 }
+
+export class InvalidPasswordResetRequest extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'InvalidPasswordResetRequest'
+    Object.setPrototypeOf(this, InvalidPasswordResetRequest.prototype)
+  }
+}

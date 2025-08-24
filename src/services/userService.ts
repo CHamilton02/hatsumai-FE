@@ -13,3 +13,7 @@ export async function registerService(user: User) {
 export async function forgotPasswordService(email: string) {
   await axiosInstance.post<string>('/user/forgot-password', { email })
 }
+
+export async function resetPasswordService(newPassword: string, token: string) {
+  await axiosInstance.post<string>('/user/reset-password', { newPassword, token })
+}
