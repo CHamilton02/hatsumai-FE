@@ -46,9 +46,8 @@ function getActionPhrase() {
 }
 
 async function onSubmitClick() {
-  appStore.loading = true
+  loadingGeneratedProject.value = true
   await projectStore.postGenerateProject(userInput.value)
-  appStore.loading = false
 }
 
 onMounted(async () => {
