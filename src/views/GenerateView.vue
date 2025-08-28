@@ -4,6 +4,7 @@ import { Icon } from '@iconify/vue'
 import DifficultyDropdown from '@/components/DifficultyDropdown.vue'
 import TopicMultiselect from '@/components/TopicMultiselect.vue'
 import { useProjectStore } from '@/stores/project'
+import router from '@/router'
 
 const actionPhrases: Array<string> = [
   'What do you wanna build before your next all-nighter?',
@@ -28,12 +29,14 @@ const actionPhrases: Array<string> = [
   "Greatness starts with one mildly unhinged idea. Let's go.",
 ]
 const userInput: Ref<string> = ref('')
-const randomActionPhrase = getActionPhrase()
+const randomActionPhrase = ref(getActionPhrase())
 const projectStore = useProjectStore()
+const pageLoading = ref(true)
 const loadingGeneratedProject = ref(false)
 
 function getActionPhrase() {
-  return actionPhrases[Math.round(Math.random() * actionPhrases.length) - 1]
+  const index = Math.floor(Math.random() * actionPhrases.length)
+  return actionPhrases[index]
 }
 
 function onSubmitClick() {
@@ -42,22 +45,32 @@ function onSubmitClick() {
 }
 
 onMounted(async () => {
-  projectStore.topics =
-    (await projectStore.getTopTenProjectTopics())?.projectTopics.map((topic) => {
-      return {
-        topic,
-        checked: false,
-      }
-    }) || []
+  pageLoading.value = true
+  try {
+    projectStore.topics =
+      (await projectStore.getTopTenProjectTopics())?.projectTopics.map((topic) => {
+        return {
+          topic,
+          checked: false,
+        }
+      }) || []
+    pageLoading.value = false
+  } catch {
+    router.push('/error')
+    console.error('Unable to fetch top ten project topics.')
+  }
 })
 </script>
 
 <template>
   <div class="generate-view-page">
-    <h1 class="action-message">
+    <button class="invisible-button" @click="onSubmitClick" v-if="pageLoading">
+      <Icon icon="line-md:loading-twotone-loop" class="loading-icon" />
+    </button>
+    <h1 class="action-message" v-if="!pageLoading">
       {{ randomActionPhrase }}
     </h1>
-    <div class="user-interaction-container--large-screen">
+    <div class="user-interaction-container--large-screen" v-if="!pageLoading">
       <div class="user-interaction-container__user-selection">
         <textarea
           class="user-interaction-container--large-screen__user-selection__input"
@@ -103,7 +116,7 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <div class="user-interaction-container--small-screen">
+    <div class="user-interaction-container--small-screen" v-if="!pageLoading">
       <textarea
         class="user-interaction-container__user-selection__input"
         placeholder="Type in some topics you want to explore — or just pick from the list below!"
@@ -266,6 +279,12 @@ onMounted(async () => {
   &:hover {
     color: main.$navy-blue-light;
   }
+}
+
+.loading-icon {
+  width: 5rem;
+  height: auto;
+  color: main.$navy-blue-2;
 }
 
 @media only screen and (max-width: 949px) {
