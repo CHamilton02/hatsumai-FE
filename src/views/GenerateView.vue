@@ -53,7 +53,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div :class="'generate-view-page'">
+  <div class="generate-view-page">
     <h1 class="action-message">
       {{ randomActionPhrase }}
     </h1>
