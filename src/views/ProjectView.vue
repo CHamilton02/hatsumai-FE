@@ -4,15 +4,27 @@ import type { Project } from '@/types/Project'
 import { Icon } from '@iconify/vue'
 import { onMounted, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
+import router from '@/router'
 import type { TDocumentDefinitions } from 'pdfmake/interfaces'
 import hatsumaiLogo from '../assets/hatsumaiLogo.svg?raw'
+import { useAppStore } from '@/stores/app'
 
 const route = useRoute()
 const project: Ref<Project | undefined> = ref()
+
 const projectStore = useProjectStore()
+const appStore = useAppStore()
 
 onMounted(async () => {
-  project.value = await projectStore.getProjectById(Number(route.params.id))
+  try {
+    appStore.loading = true
+    project.value = await projectStore.getProjectById(Number(route.params.id))
+  } catch {
+    router.push('/error')
+    console.error('Unable to fetch project by id.')
+  } finally {
+    appStore.loading = false
+  }
 })
 
 async function onDownloadButtonClick() {

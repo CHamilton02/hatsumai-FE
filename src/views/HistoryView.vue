@@ -1,21 +1,27 @@
 <script setup lang="ts">
 import router from '@/router'
+import { useAppStore } from '@/stores/app'
 import { useProjectStore } from '@/stores/project'
 import { useUserStore } from '@/stores/user'
 import type { PreviousProjectIdea } from '@/types/Project'
 import { onMounted, ref, type Ref } from 'vue'
 
 const userStore = useUserStore()
-const previousProjects: Ref<Array<PreviousProjectIdea>> = ref([])
+const appStore = useAppStore()
 const projectStore = useProjectStore()
+
+const previousProjects: Ref<Array<PreviousProjectIdea>> = ref([])
 const showLoginMessage = ref(false)
 
 onMounted(async () => {
   try {
+    appStore.loading = true
     previousProjects.value =
       (await projectStore.getProjectHistory(userStore.userEmail !== '')) || []
   } catch {
     showLoginMessage.value = true
+  } finally {
+    appStore.loading = false
   }
 })
 

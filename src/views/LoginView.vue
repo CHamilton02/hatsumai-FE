@@ -20,6 +20,7 @@ const isValidUser = computed(() => {
 const requestFailureMessage = ref('')
 
 const userStore = useUserStore()
+const isLoading = ref(false)
 
 function onUserEmailChange(newUserEmail: string) {
   user.value.email = newUserEmail
@@ -32,10 +33,13 @@ function onUserPasswordChange(newUserPassword: string) {
 async function onLogInButtonClick() {
   if (isValidUser.value) {
     try {
+      isLoading.value = true
       await userStore.login(user.value)
     } catch (error: unknown) {
       if (error instanceof Error) requestFailureMessage.value = error.message
       else requestFailureMessage.value = 'Failed to log in. Please try again later.'
+    } finally {
+      isLoading.value = false
     }
   }
 }
@@ -68,11 +72,15 @@ async function onLogInButtonClick() {
       <RouterLink to="/forgot-password">Forgot password?</RouterLink>
     </div>
     <button
+      v-if="!isLoading"
       class="login-view-container__button"
       :class="isValidUser ? 'action-button' : 'action-button--disabled'"
       @click="onLogInButtonClick"
     >
       Log in
+    </button>
+    <button v-if="isLoading" class="action-button--loading login-view-container__button">
+      <Icon icon="line-md:loading-twotone-loop" class="small-loading-icon" />
     </button>
     <p>Don't have an account? <RouterLink to="/sign-up">Sign up here!</RouterLink></p>
   </div>

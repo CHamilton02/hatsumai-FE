@@ -28,7 +28,6 @@ async function onResetPasswordActionButtonClick() {
     try {
       isLoading.value = true
       await userStore.resetPassword(newPassword.value, route.query.token as string)
-      isLoading.value = false
     } catch (error) {
       if (error instanceof InvalidPasswordResetRequest) {
         requestFailureMessage.value = error.message
@@ -36,6 +35,8 @@ async function onResetPasswordActionButtonClick() {
         requestFailureMessage.value =
           'Failed to send reset password request. Please try again later.'
       }
+    } finally {
+      isLoading.value = false
     }
   } else {
     requestFailureMessage.value = 'Both passwords must match.'
@@ -81,8 +82,8 @@ async function onResetPasswordActionButtonClick() {
     >
       Reset password
     </button>
-    <button v-if="isLoading" class="action-button reset-password-view__action-button--loading">
-      <Icon icon="line-md:loading-twotone-loop" class="loading-icon" />
+    <button v-if="isLoading" class="action-button--loading reset-password-view__action-button">
+      <Icon icon="line-md:loading-twotone-loop" class="small-loading-icon" />
     </button>
   </div>
 </template>
@@ -120,17 +121,6 @@ async function onResetPasswordActionButtonClick() {
   &__action-button {
     max-width: 22rem;
     width: 100%;
-
-    &--loading {
-      @extend .reset-password-view__action-button;
-
-      padding: 0.594rem;
-    }
   }
-}
-
-.loading-icon {
-  height: 1.75rem;
-  width: auto;
 }
 </style>

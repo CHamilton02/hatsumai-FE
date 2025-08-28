@@ -20,6 +20,7 @@ const isValidUser = computed(() => {
 const signUpFailureMessage = ref('')
 
 const userStore = useUserStore()
+const isLoading = ref(false)
 
 function onUserEmailChange(newUserEmail: string) {
   user.value.email = newUserEmail
@@ -63,13 +64,16 @@ async function onSignUpButtonClick() {
       <p>{{ signUpFailureMessage }}</p>
     </div>
     <button
+      v-if="!isLoading"
       class="sign-up-view-container__button"
       :class="isValidUser ? 'action-button' : 'action-button--disabled'"
       @click="onSignUpButtonClick()"
     >
       Sign up
     </button>
-
+    <button v-if="isLoading" class="action-button--loading sign-up-view-container__button">
+      <Icon icon="line-md:loading-twotone-loop" class="small-loading-icon" />
+    </button>
     <p>Already have an account? <RouterLink to="/login">Log in here!</RouterLink></p>
   </div>
 </template>

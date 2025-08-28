@@ -4,9 +4,14 @@ import { Icon } from '@iconify/vue'
 import { useProjectStore } from '@/stores/project'
 import router from '@/router'
 import { useScreenSize } from '@/composables/useScreenSize'
+import { useAppStore } from '@/stores/app'
 
 const DifficultyDropdown = defineAsyncComponent(() => import('@/components/DifficultyDropdown.vue'))
 const TopicMultiselect = defineAsyncComponent(() => import('@/components/TopicMultiselect.vue'))
+
+const loadingGeneratedProject = ref(false)
+const { isLargeScreen } = useScreenSize()
+const appStore = useAppStore()
 
 const actionPhrases: Array<string> = [
   'What do you wanna build before your next all-nighter?',
@@ -30,26 +35,25 @@ const actionPhrases: Array<string> = [
   'Your future self will thank you (maybe).',
   "Greatness starts with one mildly unhinged idea. Let's go.",
 ]
-const userInput: Ref<string> = ref('')
 const randomActionPhrase = ref(getActionPhrase())
+
+const userInput: Ref<string> = ref('')
 const projectStore = useProjectStore()
-const pageLoading = ref(true)
-const loadingGeneratedProject = ref(false)
-const { isLargeScreen } = useScreenSize()
 
 function getActionPhrase() {
   const index = Math.floor(Math.random() * actionPhrases.length)
   return actionPhrases[index]
 }
 
-function onSubmitClick() {
-  loadingGeneratedProject.value = true
-  projectStore.postGenerateProject(userInput.value)
+async function onSubmitClick() {
+  appStore.loading = true
+  await projectStore.postGenerateProject(userInput.value)
+  appStore.loading = false
 }
 
 onMounted(async () => {
-  pageLoading.value = true
   try {
+    appStore.loading = true
     projectStore.topics =
       (await projectStore.getTopTenProjectTopics())?.projectTopics.map((topic) => {
         return {
@@ -57,23 +61,21 @@ onMounted(async () => {
           checked: false,
         }
       }) || []
-    pageLoading.value = false
   } catch {
     router.push('/error')
     console.error('Unable to fetch top ten project topics.')
+  } finally {
+    appStore.loading = false
   }
 })
 </script>
 
 <template>
   <div class="generate-view-page">
-    <button class="invisible-button" @click="onSubmitClick" v-if="pageLoading">
-      <Icon icon="line-md:loading-twotone-loop" class="loading-icon" />
-    </button>
-    <h1 class="action-message" v-if="!pageLoading">
+    <h1 class="action-message">
       {{ randomActionPhrase }}
     </h1>
-    <div class="user-interaction-container--large-screen" v-if="!pageLoading && isLargeScreen">
+    <div class="user-interaction-container--large-screen" v-if="isLargeScreen">
       <div class="user-interaction-container__user-selection">
         <textarea
           class="user-interaction-container--large-screen__user-selection__input"
@@ -119,7 +121,7 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <div class="user-interaction-container--small-screen" v-if="!pageLoading && !isLargeScreen">
+    <div class="user-interaction-container--small-screen" v-if="!isLargeScreen">
       <textarea
         class="user-interaction-container__user-selection__input"
         placeholder="Type in some topics you want to explore — or just pick from the list below!"
@@ -127,7 +129,10 @@ onMounted(async () => {
       ></textarea>
       <DifficultyDropdown />
       <TopicMultiselect />
-      <div class="user-interaction-container__topic-container__topics">
+      <div
+        class="user-interaction-container__topic-container__topics"
+        v-if="projectStore.selectedTopics.length > 0"
+      >
         <button
           class="user-interaction-container__topic-container__topics__topic"
           v-for="selectedTopic in projectStore.selectedTopics"
@@ -138,14 +143,13 @@ onMounted(async () => {
           <Icon icon="material-symbols-light:close-rounded" class="clickable-icon" />
         </button>
       </div>
-      <div class="user-interaction-container--small-screen__submit-button-container">
-        <button
-          class="invisible-button"
-          @click="onSubmitClick"
-          v-if="
-            projectStore.selectedDifficulty && (projectStore.selectedTopics.length > 0 || userInput)
-          "
-        >
+      <div
+        class="user-interaction-container--small-screen__submit-button-container"
+        v-if="
+          projectStore.selectedDifficulty && (projectStore.selectedTopics.length > 0 || userInput)
+        "
+      >
+        <button class="invisible-button" @click="onSubmitClick">
           <Icon
             :icon="
               loadingGeneratedProject
@@ -264,7 +268,6 @@ onMounted(async () => {
     @extend .user-interaction-container;
 
     &__submit-button-container {
-      margin-top: 1rem;
       display: flex;
       width: 100%;
       justify-content: center;

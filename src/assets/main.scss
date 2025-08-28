@@ -66,6 +66,12 @@ h2 {
     }
   }
 
+  &--loading {
+    @extend .action-button;
+
+    padding: 0.594rem;
+  }
+
   &:hover {
     background-color: $navy-blue-light;
   }
@@ -74,6 +80,11 @@ h2 {
 .invisible-button {
   background: none;
   border: none;
+}
+
+.small-loading-icon {
+  width: 1.75rem;
+  height: auto;
 }
 
 .clickable-background {
