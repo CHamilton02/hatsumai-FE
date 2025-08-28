@@ -10,11 +10,11 @@ const { isLargeScreen } = useScreenSize()
 
 <template>
   <div class="app-container">
-    <div class="regular-nav" v-if="isLargeScreen">
+    <div v-if="isLargeScreen">
       <SideNavbar />
       <TopNavbar />
     </div>
-    <MobileNav class="small-screen-nav" v-else />
+    <MobileNav v-else />
     <main class="app-container__main">
       <RouterView />
     </main>
