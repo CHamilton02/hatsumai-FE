@@ -3,15 +3,18 @@ import SideNavbar from './components/SideNavbar.vue'
 import { RouterView } from 'vue-router'
 import TopNavbar from './components/TopNavbar.vue'
 import MobileNav from './components/MobileNav.vue'
+import { useScreenSize } from './composables/useScreenSize'
+
+const { isLargeScreen } = useScreenSize()
 </script>
 
 <template>
   <div class="app-container">
-    <div class="regular-nav">
+    <div class="regular-nav" v-if="isLargeScreen">
       <SideNavbar />
       <TopNavbar />
     </div>
-    <MobileNav class="small-screen-nav" />
+    <MobileNav class="small-screen-nav" v-else />
     <main class="app-container__main">
       <RouterView />
     </main>
@@ -35,28 +38,12 @@ import MobileNav from './components/MobileNav.vue'
     padding: 2.5rem;
     margin: 0;
   }
-
-  .small-screen-nav {
-    display: initial;
-  }
-
-  .regular-nav {
-    display: none;
-  }
 }
 
 @media only screen and (min-width: 950px) {
   .app-container__main {
     padding: 0;
     margin-left: 5rem;
-  }
-
-  .small-screen-nav {
-    display: none;
-  }
-
-  .regular-nav {
-    display: initial;
   }
 }
 </style>
