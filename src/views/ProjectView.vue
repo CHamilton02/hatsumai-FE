@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import pdfMake from 'pdfmake/build/pdfmake'
 import { useProjectStore } from '@/stores/project'
 import type { Project } from '@/types/Project'
 import { Icon } from '@iconify/vue'
 import { onMounted, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
 import type { TDocumentDefinitions } from 'pdfmake/interfaces'
-import * as rawPdfFonts from 'pdfmake/build/vfs_fonts'
-import { cloneDeep } from 'lodash-es'
 import hatsumaiLogo from '../assets/hatsumaiLogo.svg?raw'
-import type { PdfFontsExport } from '@/types/PdfMakeCustomTypes'
-
-const pdfFonts = rawPdfFonts as PdfFontsExport
-pdfMake.vfs = pdfFonts.pdfMake?.vfs || {}
 
 const route = useRoute()
 const project: Ref<Project | undefined> = ref()
@@ -22,11 +15,18 @@ onMounted(async () => {
   project.value = await projectStore.getProjectById(Number(route.params.id))
 })
 
-function onDownloadButtonClick() {
+async function onDownloadButtonClick() {
+  const pdfMake = await import('pdfmake/build/pdfmake')
+  const pdfFonts = await import('pdfmake/build/vfs_fonts')
+  pdfMake.vfs = pdfFonts.vfs || {}
   const formattedTips =
-    cloneDeep(project.value?.tips)?.map((tip) => {
-      return { text: tip, style: 'tip' }
-    }) || []
+    JSON.parse(
+      JSON.stringify(
+        project.value?.tips?.map((tip) => {
+          return { text: tip, style: 'tip' }
+        }),
+      ),
+    ) || []
 
   const docDefinition: TDocumentDefinitions = {
     content: [
