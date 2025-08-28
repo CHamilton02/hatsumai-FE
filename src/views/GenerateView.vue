@@ -57,10 +57,10 @@ onMounted(async () => {
     <h1 class="action-message">
       {{ randomActionPhrase }}
     </h1>
-    <div class="user-interaction-container">
+    <div class="user-interaction-container--large-screen">
       <div class="user-interaction-container__user-selection">
         <textarea
-          class="user-interaction-container__user-selection__input"
+          class="user-interaction-container--large-screen__user-selection__input"
           placeholder="Type in some topics you want to explore — or just pick from the list below!"
           v-model="userInput"
         ></textarea>
@@ -103,6 +103,44 @@ onMounted(async () => {
         </div>
       </div>
     </div>
+    <div class="user-interaction-container--small-screen">
+      <textarea
+        class="user-interaction-container__user-selection__input"
+        placeholder="Type in some topics you want to explore — or just pick from the list below!"
+        v-model="userInput"
+      ></textarea>
+      <DifficultyDropdown />
+      <TopicMultiselect />
+      <div class="user-interaction-container__topic-container__topics">
+        <button
+          class="user-interaction-container__topic-container__topics__topic"
+          v-for="selectedTopic in projectStore.selectedTopics"
+          :key="selectedTopic"
+          @click="projectStore.removeTopicByName(selectedTopic)"
+        >
+          {{ selectedTopic }}
+          <Icon icon="material-symbols-light:close-rounded" class="clickable-icon" />
+        </button>
+      </div>
+      <div class="user-interaction-container--small-screen__submit-button-container">
+        <button
+          class="invisible-button"
+          @click="onSubmitClick"
+          v-if="
+            projectStore.selectedDifficulty && (projectStore.selectedTopics.length > 0 || userInput)
+          "
+        >
+          <Icon
+            :icon="
+              loadingGeneratedProject
+                ? 'line-md:loading-twotone-loop'
+                : 'material-symbols-light:arrow-circle-up-rounded'
+            "
+            class="submit-icon"
+          />
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -139,8 +177,8 @@ onMounted(async () => {
     align-items: center;
 
     &__input {
+      width: 100%;
       resize: none;
-      width: 70%;
       border: none;
       background: none;
       padding: 0;
@@ -193,6 +231,29 @@ onMounted(async () => {
       }
     }
   }
+
+  &--large-screen {
+    @extend .user-interaction-container;
+
+    &__user-selection {
+      &__input {
+        @extend .user-interaction-container__user-selection__input;
+
+        width: 70%;
+      }
+    }
+  }
+
+  &--small-screen {
+    @extend .user-interaction-container;
+
+    &__submit-button-container {
+      margin-top: 1rem;
+      display: flex;
+      width: 100%;
+      justify-content: center;
+    }
+  }
 }
 
 .submit-icon {
@@ -204,6 +265,26 @@ onMounted(async () => {
 
   &:hover {
     color: main.$navy-blue-light;
+  }
+}
+
+@media only screen and (max-width: 949px) {
+  .user-interaction-container--large-screen {
+    display: none;
+  }
+
+  .user-interaction-container--small-screen {
+    display: initial;
+  }
+}
+
+@media only screen and (min-width: 950px) {
+  .user-interaction-container--large-screen {
+    display: initial;
+  }
+
+  .user-interaction-container--small-screen {
+    display: none;
   }
 }
 </style>

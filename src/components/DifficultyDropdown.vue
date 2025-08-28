@@ -92,6 +92,7 @@ function onDifficultyOptionSelection(difficultyOption: DifficultyLevel) {
   border-radius: 0 0 0.75rem 0.75rem;
   width: 10rem;
   overflow: hidden;
+  z-index: 1;
 
   &--show {
     display: flex;
