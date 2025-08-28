@@ -1,13 +1,3 @@
-import ErrorView from '@/views/ErrorView.vue'
-import ForgotPasswordView from '@/views/ForgotPasswordView.vue'
-import GenerateView from '@/views/GenerateView.vue'
-import HistoryView from '@/views/HistoryView.vue'
-import HomeView from '@/views/HomeView.vue'
-import LoginView from '@/views/LoginView.vue'
-import ProjectView from '@/views/ProjectView.vue'
-import ResetPasswordView from '@/views/ResetPasswordView.vue'
-import SignUpView from '@/views/SignUpView.vue'
-import SuccessView from '@/views/SuccessView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -16,47 +6,47 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import('@/views/HomeView.vue'),
     },
     {
       path: '/generate',
       name: 'generate',
-      component: GenerateView,
+      component: () => import('@/views/GenerateView.vue'),
     },
     {
       path: '/project/:id',
       name: 'project',
-      component: ProjectView,
+      component: () => import('@/views/ProjectView.vue'),
     },
     {
       path: '/history',
       name: 'history',
-      component: HistoryView,
+      component: () => import('@/views/HistoryView.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: LoginView,
+      component: () => import('@/views/LoginView.vue'),
     },
     {
       path: '/sign-up',
       name: 'sign up',
-      component: SignUpView,
+      component: () => import('@/views/SignUpView.vue'),
     },
     {
       path: '/error',
       name: 'error',
-      component: ErrorView,
+      component: () => import('@/views/ErrorView.vue'),
     },
     {
       path: '/forgot-password',
       name: 'forgot password',
-      component: ForgotPasswordView,
+      component: () => import('@/views/ForgotPasswordView.vue'),
     },
     {
       path: '/forgot-password/success',
       name: 'forgot password success',
-      component: SuccessView,
+      component: () => import('@/views/SuccessView.vue'),
       props: {
         header: 'Password Reset Email Sent',
         body: 'Follow the link in your inbox to reset your password. This link will expire in 10 minutes.',
@@ -66,7 +56,7 @@ const router = createRouter({
     {
       path: '/reset-password',
       name: 'reset password',
-      component: ResetPasswordView,
+      component: () => import('@/views/ResetPasswordView.vue'),
     },
   ],
 })

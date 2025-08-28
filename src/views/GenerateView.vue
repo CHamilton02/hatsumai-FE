@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref, type Ref } from 'vue'
+import { defineAsyncComponent, onMounted, ref, type Ref } from 'vue'
 import { Icon } from '@iconify/vue'
-import DifficultyDropdown from '@/components/DifficultyDropdown.vue'
-import TopicMultiselect from '@/components/TopicMultiselect.vue'
 import { useProjectStore } from '@/stores/project'
 import router from '@/router'
+
+const DifficultyDropdown = defineAsyncComponent(() => import('@/components/DifficultyDropdown.vue'))
+const TopicMultiselect = defineAsyncComponent(() => import('@/components/TopicMultiselect.vue'))
 
 const actionPhrases: Array<string> = [
   'What do you wanna build before your next all-nighter?',
