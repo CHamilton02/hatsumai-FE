@@ -3,6 +3,7 @@ import { defineAsyncComponent, onMounted, ref, type Ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useProjectStore } from '@/stores/project'
 import router from '@/router'
+import { useScreenSize } from '@/composables/useScreenSize'
 
 const DifficultyDropdown = defineAsyncComponent(() => import('@/components/DifficultyDropdown.vue'))
 const TopicMultiselect = defineAsyncComponent(() => import('@/components/TopicMultiselect.vue'))
@@ -34,6 +35,7 @@ const randomActionPhrase = ref(getActionPhrase())
 const projectStore = useProjectStore()
 const pageLoading = ref(true)
 const loadingGeneratedProject = ref(false)
+const { isLargeScreen } = useScreenSize()
 
 function getActionPhrase() {
   const index = Math.floor(Math.random() * actionPhrases.length)
@@ -71,7 +73,7 @@ onMounted(async () => {
     <h1 class="action-message" v-if="!pageLoading">
       {{ randomActionPhrase }}
     </h1>
-    <div class="user-interaction-container--large-screen" v-if="!pageLoading">
+    <div class="user-interaction-container--large-screen" v-if="!pageLoading && isLargeScreen">
       <div class="user-interaction-container__user-selection">
         <textarea
           class="user-interaction-container--large-screen__user-selection__input"
@@ -117,7 +119,7 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <div class="user-interaction-container--small-screen" v-if="!pageLoading">
+    <div class="user-interaction-container--small-screen" v-if="!pageLoading && !isLargeScreen">
       <textarea
         class="user-interaction-container__user-selection__input"
         placeholder="Type in some topics you want to explore — or just pick from the list below!"
@@ -286,25 +288,5 @@ onMounted(async () => {
   width: 5rem;
   height: auto;
   color: main.$navy-blue-2;
-}
-
-@media only screen and (max-width: 949px) {
-  .user-interaction-container--large-screen {
-    display: none;
-  }
-
-  .user-interaction-container--small-screen {
-    display: initial;
-  }
-}
-
-@media only screen and (min-width: 950px) {
-  .user-interaction-container--large-screen {
-    display: initial;
-  }
-
-  .user-interaction-container--small-screen {
-    display: none;
-  }
 }
 </style>
