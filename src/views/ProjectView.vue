@@ -2,7 +2,7 @@
 import { useProjectStore } from '@/stores/project'
 import type { Project } from '@/types/Project'
 import { Icon } from '@iconify/vue'
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted, onUnmounted, ref, type Ref } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
 import type { TDocumentDefinitions } from 'pdfmake/interfaces'
@@ -25,6 +25,10 @@ onMounted(async () => {
   } finally {
     appStore.loading = false
   }
+})
+
+onUnmounted(() => {
+  appStore.loading = false
 })
 
 async function onDownloadButtonClick() {
@@ -78,7 +82,7 @@ async function onDownloadButtonClick() {
 </script>
 
 <template>
-  <div class="idea-view-container">
+  <div class="idea-view-container" v-if="!appStore.loading">
     <div class="idea-view" v-if="project">
       <h1 class="idea-view__title">{{ project.title }}</h1>
       <p>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted, ref, type Ref } from 'vue'
+import { defineAsyncComponent, onMounted, onUnmounted, ref, type Ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useProjectStore } from '@/stores/project'
 import router from '@/router'
@@ -67,10 +67,14 @@ onMounted(async () => {
     appStore.loading = false
   }
 })
+
+onUnmounted(() => {
+  appStore.loading = false
+})
 </script>
 
 <template>
-  <div class="generate-view-page">
+  <div class="generate-view-page" v-if="!appStore.loading">
     <h1 class="action-message">
       {{ randomActionPhrase }}
     </h1>

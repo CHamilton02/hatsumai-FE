@@ -4,7 +4,7 @@ import { useAppStore } from '@/stores/app'
 import { useProjectStore } from '@/stores/project'
 import { useUserStore } from '@/stores/user'
 import type { PreviousProjectIdea } from '@/types/Project'
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted, onUnmounted, ref, type Ref } from 'vue'
 
 const userStore = useUserStore()
 const appStore = useAppStore()
@@ -25,13 +25,17 @@ onMounted(async () => {
   }
 })
 
+onUnmounted(() => {
+  appStore.loading = false
+})
+
 function onViewDetailsButtonClick(projectId: number) {
   router.push(`/project/${projectId}`)
 }
 </script>
 
 <template>
-  <div class="history-view-container">
+  <div class="history-view-container" v-if="!appStore.loading">
     <div class="history-view" v-if="!showLoginMessage && previousProjects.length > 0">
       <h1 class="history-view__header">Previous Project Ideas</h1>
       <div class="history-view__projects-container">
