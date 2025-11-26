@@ -1,64 +1,78 @@
-# hatsumai-FE
+# Hatsumai (Frontend Client)
 
-This template should help get you started developing with Vue 3 in Vite.
+The responsive web interface for **Hatsumai**, an AI-powered project generator designed to help Computer Science students discover and plan portfolio-worthy projects.
 
-## Recommended IDE Setup
+Note: This repository contains the Frontend logic. For the Backend API, Database, and Docker configuration, please visit the [Hatsumai Backend Repository](https://github.com/CHamilton02/hatsumai-BE).
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 🚀 Key Features
 
-## Type Support for `.vue` Imports in TS
+- **Project Generation UI:** Intuitive forms to capture user interests, difficulty levels, and topics.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- **Dynamic Content Display:** Renders AI-generated project titles, descriptions, and actionable tips in a clean layout.
 
-## Customize configuration
+- **Responsive Design:** Built with SCSS to ensure usability across different screen sizes.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- **Type-Safe Architecture:** Leverages TypeScript for robust component logic and API integration.
 
-## Project Setup
+## 🛠️ Tech Stack
 
-```sh
+- **Framework:** [Vue.js 3](https://vuejs.org/) (Composition API)
+
+- **Build Tool:** [Vite](https://vite.dev/)
+
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+
+- **Styling:** SCSS / SASS
+
+- **Routing:** Vue Router
+
+## 📂 Project Structure
+
+```Text
+src/
+├── assets/         # Static assets (images, fonts)
+├── components/     # Reusable Vue components (Forms, Cards, etc.)
+├── router/         # Vue Router configuration
+├── views/          # Main page views
+├── App.vue         # Root component
+└── main.ts         # Application entry point
+```
+
+
+## 💻 Local Development Setup
+
+Follow these steps to run the frontend locally:
+
+1. Prerequisites
+   
+Ensure you have Node.js installed on your machine.
+
+4. Install Dependencies
+
+```Bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+3. Start Development Server
 
-```sh
+```Bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+The application will be available at http://localhost:5173.
 
-```sh
+4. Build for Production
+
+To create a production-ready build:
+
+```Basg
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## 🔗 Related Repositories
 
-```sh
-npm run test:unit
-```
+- **Backend API:** [CHamilton02/hatsumai-BE](https://github.com/CHamilton02/hatsumai-BE) - Express, PostgreSQL, Knex.js, and GPT-4o integration.
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+📝 License
 
-```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-npm run build
-
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+This project is open source and available under the MIT License.
