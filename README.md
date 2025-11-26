@@ -73,6 +73,6 @@ npm run build
 
 - **Backend API:** [CHamilton02/hatsumai-BE](https://github.com/CHamilton02/hatsumai-BE) - Express, PostgreSQL, Knex.js, and GPT-4o integration.
 
-📝 License
+## 📝 License
 
 This project is open source and available under the MIT License.
